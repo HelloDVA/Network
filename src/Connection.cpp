@@ -8,22 +8,21 @@
 #include"Buffer.h"
 #include"HttpRequest.h"
 #include"HttpResponse.h"
+#include"Log.h"
 
 
 Connection::Connection(EventLoop *_loop, int _fd){
     loop = _loop;
 	fd = _fd;
-
     buffer = std::make_unique<Buffer>();
-
 	request_ = std::make_unique<HttpRequest>();
 	response_ = std::make_unique<HttpResponse>();
-
     connection_channel = std::make_unique<Channel>(loop, fd, true);
     std::function<void()> cb = std::bind(&Connection::HttpConnection, this, fd); 
     connection_channel -> setfunction(cb);
     connection_channel -> EnableRead();
     connection_channel -> EnableET();
+    Log::getlog() -> WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "New Connection ready");
 }
 
 Connection::~Connection(){}

@@ -21,7 +21,6 @@ enum    LOG_TYPE
 class Log{
     public:
         static Log* getlog();
-        void init(LOG_LEVEL log_level, LOG_TYPE log_type);
         int WriteLog(LOG_LEVEL log_level, const char* file_name, const char* function, int line_number, const char* message);
 
     private:
@@ -30,6 +29,8 @@ class Log{
         ~Log();
 		Log(const Log &log) = delete;
 		Log& operator=(const Log &log) = delete;
+
+        void init(LOG_LEVEL log_level, LOG_TYPE log_type);
         
         // tools
         std::string GetCurrentTime();

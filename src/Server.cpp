@@ -5,6 +5,7 @@
 #include"Acceptor.h"
 #include"Connection.h"
 #include"ThreadPool.h"
+#include"Log.h"
 
 #include<iostream>
 #include<functional>
@@ -13,20 +14,25 @@ Server::Server(){
     // use main_reactor create acceptor.
     // acceptor will let server get new connections
 	main_reactor = std::make_unique<EventLoop>();
+    Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "main reactor is created");
+
     acceptor = std::make_unique<Acceptor>(main_reactor.get());
+    Log::getlog() -> WriteLog(LOG_LEVEL_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Acceptor ready");
 	
-	// bind connection process function to acceptor
+	// bind connectNew to acceptor
     std::function<void(int)> cb = std::bind(&Server::ConnectNew, this, std::placeholders::_1);
     acceptor -> setnewconnectioncallback(cb);
 
     //one loop one thread
     int size = 10; 
     threadpool = std::make_unique<ThreadPool>(size);
+    Log::getlog() -> WriteLog(LOG_LEVEL_DEBUG, __FILE__, __FUNCTION__, __LINE__, "ThreadPool ready");
+
     for(int i = 0; i < size; i ++){
 		std::unique_ptr<EventLoop> subreactor = std::make_unique<EventLoop>();
 		reactors.push_back(std::move(subreactor));
 	}
-	
+    Log::getlog() -> WriteLog(LOG_LEVEL_DEBUG, __FILE__, __FUNCTION__, __LINE__, "subreactors ready");
 }
 
 Server::~Server(){}
@@ -38,17 +44,14 @@ void Server::Start(){
         threadpool -> Add(std::move(func));
     }
 
-	// ready to start the server
+    Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "server start");
 	main_reactor->Loop();
-	
-	std::cout << "server start\n";
 }
 
 void Server::ConnectNew(int client_fd){
      //use random strategy to get subreactor  
      int number = client_fd % reactors.size(); 
 	
-	 //use subreactor to create new connection
 	 std::unique_ptr<Connection> connection = std::make_unique<Connection>(reactors[number].get(), client_fd);
 
      std::function<void(int client_fd)> callback = std::bind(&Server::DeleteConnection, this, std::placeholders::_1);

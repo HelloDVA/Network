@@ -4,9 +4,9 @@
 #include<unistd.h>
 #include<assert.h>
 
-#include"InetAddress.h"
-#include"utils.h" 
+#include"InetAddress.h" 
 #include"Socket.h" 
+#include"Log.h"
 
 using namespace std;
 
@@ -28,9 +28,10 @@ RC Socket::Create(){
     assert(fd != -1);
     fd = socket(AF_INET, SOCK_STREAM, 0);
     if(fd == -1){
-        perror("Failde to create socket");
+        Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to create socket");
         return RC_SOCKET_ERROR;
     }
+    Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "Create socket success");
     return RC_SUCCESS;
 }
 
@@ -55,9 +56,10 @@ RC Socket::Bind(const char *ip, uint16_t port) const{
 
     int bind_state = bind(fd, (struct sockaddr*)&addr, sizeof(addr));
     if(bind_state == -1){
-        perror("Create Socket Error");
+        Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to bind socket");
         return RC_SOCKET_ERROR;
     }
+    Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "Bind socket success");
     return RC_SUCCESS;
 }
 
@@ -65,9 +67,10 @@ RC Socket::Listen(){
     assert(fd != -1);
     int listen_state = listen(fd, SOMAXCONN);
     if(listen_state == -1){
-        perror("Listen Socket Error");
+        Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to listen socket");
         return RC_SOCKET_ERROR;
     }
+    Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "Listen socket success");
     return RC_SUCCESS;
 }
 
@@ -75,14 +78,11 @@ RC Socket::Accept(int &clientfd){
     assert(fd != -1);
     clientfd = accept(fd, NULL, NULL);
     if(clientfd == -1){
-        perror("Failed to accept socket");
+        Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to accept socket");
         return RC_SOCKET_ERROR;
     }
+    Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "Accept socket success");
     return RC_SUCCESS;
-}
-
-int Socket::getfd() const {
-    return fd;
 }
 
 RC Socket::Connect(const char *ip, uint16_t port)
@@ -96,9 +96,13 @@ RC Socket::Connect(const char *ip, uint16_t port)
 
     int connect_state = connect(fd, (sockaddr*)&addr, sizeof(addr));
     if(connect_state == -1){
-        perror("Failed to Connect socket");
+        Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to connect socket");
         return RC_SOCKET_ERROR;
     }
+    Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "Connect socket success");
     return RC_SUCCESS;
 }
 
+int Socket::getfd() const {    
+    return fd;
+}

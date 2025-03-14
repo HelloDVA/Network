@@ -2,6 +2,7 @@
 #include"EventLoop.h"
 #include"Socket.h"
 #include"Channel.h"
+#include"Log.h"
 
 #include<fcntl.h>
 #include<iostream>
@@ -28,12 +29,9 @@ Acceptor::~Acceptor(){}
 
 void Acceptor::AcceptConnection(){
     // accept client_sock. use server::connection to create connection.
-	
     int client_fd = -1;
     socket -> Accept(client_fd);
     fcntl(client_fd, F_SETFL, fcntl(client_fd, F_GETFL) | O_NONBLOCK);
-
-    //Then use server::connection to create connection.
     newconnectioncallback(client_fd);
 }
 
