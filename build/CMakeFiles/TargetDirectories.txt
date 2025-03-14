@@ -1,0 +1,8 @@
+/home/hello/Documents/network/build/CMakeFiles/edit_cache.dir
+/home/hello/Documents/network/build/CMakeFiles/rebuild_cache.dir
+/home/hello/Documents/network/build/src/CMakeFiles/pine_shared.dir
+/home/hello/Documents/network/build/src/CMakeFiles/edit_cache.dir
+/home/hello/Documents/network/build/src/CMakeFiles/rebuild_cache.dir
+/home/hello/Documents/network/build/test/CMakeFiles/server.dir
+/home/hello/Documents/network/build/test/CMakeFiles/edit_cache.dir
+/home/hello/Documents/network/build/test/CMakeFiles/rebuild_cache.dir

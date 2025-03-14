@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/server.dir/server.cpp.o -o /home/hello/Documents/network/bin/server  -Wl,-rpath,/home/hello/Documents/network/build/src ../src/libpine_shared.so 
