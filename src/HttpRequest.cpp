@@ -1,5 +1,6 @@
 #include"HttpRequest.h"
 #include"Buffer.h"
+#include"Log.h"
 #include<sstream>
 #include<iostream>
 
@@ -17,6 +18,7 @@ bool HttpRequest::Parse(std::unique_ptr<Buffer> buffer){
 
     std::string line;
     if(!std::getline(request_stream, line)){
+        Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to parse the request line");
         return false;
     }
 

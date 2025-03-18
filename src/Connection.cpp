@@ -17,6 +17,7 @@ Connection::Connection(EventLoop *_loop, int _fd){
     buffer = std::make_unique<Buffer>();
 	request_ = std::make_unique<HttpRequest>();
 	response_ = std::make_unique<HttpResponse>();
+    
     connection_channel = std::make_unique<Channel>(loop, fd, true);
     std::function<void()> cb = std::bind(&Connection::HttpConnection, this, fd); 
     connection_channel -> setfunction(cb);

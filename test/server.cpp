@@ -7,7 +7,7 @@ int main()
 {
     //epoll is in EventLoop
     //create EventLoop and epoll
-    Server *server = new Server();
-	server -> Start();
+    Server server = Server();
+	server.Start();
     return 0;
 }
