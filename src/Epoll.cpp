@@ -2,13 +2,12 @@
 #include"Channel.h"
 #include<iostream>
 #include<unistd.h>
-#include<Log.h>
+#include"Log.h"
 
 
 #define MAX_EVENTS 100
 Epoll::Epoll(){
    epollfd = epoll_create1(0);
-
    // add timer. if create failure then retry
    if(epollfd == -1){
         Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "epoll create error");
