@@ -50,17 +50,10 @@ void Connection::HttpConnection(int fd){
     }
 
  	// prase request
-    if(!request_ -> Parse(std::move(buffer))){
-        // use error page to make response
-        std::string error_page = "<h1>404 Not Found</h1>";
-        response_ -> MakeResponse(400, request_ -> getversion(), error_page);
-    }
-    else{
-        std::string success_page = "<html><body><h1>Hello, World!</h1></body></html>";
-        response_ -> MakeResponse(200, request_ -> getversion(), success_page);
-        // prase success process request and make response
-        //HandleRequest();
-    }
+    request_ -> Parse(std::move(buffer));
+
+    // create response
+    response_ -> MakeResponse(request_->getpath(), request_ -> getversion());
     
     // send response
     std::string response_message = response_ -> ToString();

@@ -9,22 +9,20 @@ HttpRequest::HttpRequest(){}
 
 HttpRequest::~HttpRequest(){}
 
-bool HttpRequest::Parse(std::unique_ptr<Buffer> buffer){
+void HttpRequest::Parse(std::unique_ptr<Buffer> buffer){
     // verify the buffer size
    if(buffer -> Size() == 0)
-        return false;
-	
+        return;
+
     std::istringstream request_stream(buffer -> getbuffer());
-
     std::string line;
-    if(!std::getline(request_stream, line)){
-        Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to parse the request line");
-        return false;
-    }
-
+    std::getline(request_stream, line);
+    
     // process the request line
     std::istringstream line_stream(line);
     line_stream >> method_ >> path_ >> version_;
+    if(path_ == "/")
+        path_ = "/index.html";
 
     // process the request header
     while(std::getline(request_stream, line) && line != "\r"){
@@ -43,10 +41,13 @@ bool HttpRequest::Parse(std::unique_ptr<Buffer> buffer){
             body_.resize(content_length);
 //            request_stream.read(body_.data(), content_length);
         }
-    } 
-    return true;
+    }
 }
 
 std::string HttpRequest::getversion(){
 	return version_;
+}
+
+std::string HttpRequest::getpath(){
+	return path_;
 }

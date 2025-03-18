@@ -19,8 +19,9 @@ class HttpRequest{
 		HttpRequest();
 		~HttpRequest();
 		                                               
-		bool Parse(std::unique_ptr<Buffer> buffer);		
+		void Parse(std::unique_ptr<Buffer> buffer);		
 
 		std::string getversion();
+		std::string getpath();
 
 };
