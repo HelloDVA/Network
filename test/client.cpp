@@ -3,7 +3,6 @@
 #include<string.h>
 #include<functional>
 
-#include"src/InetAddress.h"
 #include"src/utils.h"
 #include"src/Socket.h"
 #include"src/Buffer.h"

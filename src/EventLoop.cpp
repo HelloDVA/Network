@@ -27,3 +27,6 @@ void EventLoop::UpdateChannel(Channel *ch){
    epoll->UpdateChannel(ch); 
 }
 
+void EventLoop::DeleteChannel(Channel *ch){
+	epoll -> DeleteChannel(ch);
+}

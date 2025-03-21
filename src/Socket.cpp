@@ -3,7 +3,6 @@
 #include<fcntl.h>
 #include<unistd.h>
 #include<assert.h>
-
 #include"InetAddress.h" 
 #include"Socket.h" 
 #include"Log.h"
@@ -17,8 +16,7 @@ Socket::Socket(){
 Socket::Socket(int _fd) : fd(_fd) {}
 
 Socket::~Socket(){
-    if(fd != -1)
-    {
+    if(fd != -1){
         close(fd);
         fd = -1;
     }
@@ -46,14 +44,12 @@ RC Socket::SetNonBlocking(){
 }
 
 RC Socket::Bind(const char *ip, uint16_t port) const{
-
     assert(fd != -1);
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = inet_addr(ip);
     addr.sin_port = htons(port);
-
     int bind_state = bind(fd, (struct sockaddr*)&addr, sizeof(addr));
     if(bind_state == -1){
         Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to bind socket");
@@ -93,7 +89,6 @@ RC Socket::Connect(const char *ip, uint16_t port)
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = inet_addr(ip);
     addr.sin_port = htons(port);
-
     int connect_state = connect(fd, (sockaddr*)&addr, sizeof(addr));
     if(connect_state == -1){
         Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "Failed to connect socket");

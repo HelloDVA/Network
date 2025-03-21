@@ -1,7 +1,7 @@
 src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.o: \
- /home/hello/Documents/network/src/ThreadPool.cpp \
+ /home/hello/Documents/Network/src/ThreadPool.cpp \
  /usr/include/stdc-predef.h \
- /home/hello/Documents/network/src/include/ThreadPool.h \
+ /home/hello/Documents/Network/src/include/ThreadPool.h \
  /usr/include/c++/13/vector /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

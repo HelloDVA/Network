@@ -16,4 +16,5 @@ class Epoll
 
         std::vector<Channel*> Poll();
         void UpdateChannel(Channel *ch);
+		void DeleteChannel(Channel *ch);
 };

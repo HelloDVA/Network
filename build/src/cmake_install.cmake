@@ -1,4 +1,4 @@
-# Install script for directory: /home/hello/Documents/network/src
+# Install script for directory: /home/hello/Documents/Network/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

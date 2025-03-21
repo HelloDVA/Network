@@ -1,5 +1,5 @@
 test/CMakeFiles/server.dir/server.cpp.o: \
- /home/hello/Documents/network/test/server.cpp /usr/include/stdc-predef.h \
+ /home/hello/Documents/Network/test/server.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/13/iostream /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -144,7 +144,7 @@ test/CMakeFiles/server.dir/server.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /home/hello/Documents/network/src/include/Server.h \
+ /home/hello/Documents/Network/src/include/Server.h \
  /usr/include/c++/13/unordered_map \
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \

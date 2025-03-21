@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -Dpine_shared_EXPORTS
 
-CXX_INCLUDES = -I/home/hello/Documents/network/src/include
+CXX_INCLUDES = -I/home/hello/Documents/Network/src/include
 
 CXX_FLAGS = -std=gnu++14 -fPIC
 

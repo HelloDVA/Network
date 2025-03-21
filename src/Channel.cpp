@@ -10,7 +10,9 @@ Channel::Channel(EventLoop *_loop, int _fd, bool _usethreadpool){
     usethreadpool = _usethreadpool;
 }
 
-Channel::~Channel(){}
+Channel::~Channel(){
+	loop->DeleteChannel(this);
+}
 
 void Channel::setevents(uint32_t _events){
     events = _events;

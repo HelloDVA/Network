@@ -1,7 +1,6 @@
 #include<unistd.h>
 #include<iostream>
 #include<string.h>
-
 #include"Connection.h"
 #include"EventLoop.h"
 #include"Channel.h"
@@ -9,45 +8,45 @@
 #include"HttpRequest.h"
 #include"HttpResponse.h"
 #include"Log.h"
-
+#include"Socket.h"
 
 Connection::Connection(EventLoop *_loop, int _fd){
     loop = _loop;
-	fd = _fd;
+
+	client_socket = std::make_unique<Socket>(_fd);
     buffer = std::make_unique<Buffer>();
 	request_ = std::make_unique<HttpRequest>();
 	response_ = std::make_unique<HttpResponse>();
-    
-    connection_channel = std::make_unique<Channel>(loop, fd, true);
-    std::function<void()> cb = std::bind(&Connection::HttpConnection, this, fd); 
+    connection_channel = std::make_unique<Channel>(loop, client_socket->getfd(), true);
+    std::function<void()> cb = std::bind(&Connection::HttpConnection, this); 
     connection_channel -> setfunction(cb);
     connection_channel -> EnableRead();
     connection_channel -> EnableET();
     Log::getlog() -> WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "New Connection ready");
 }
 
-Connection::~Connection(){}
+Connection::~Connection(){
+	deletecallback(client_socket->getfd());	
+}
 
-void Connection::HttpConnection(int fd){
-	if(fd == -1){
-   	     return;
-    }
-
-    // read request
+void Connection::HttpConnection(){
+    // get request
     while(true){
         char read_buffer[1024];
         bzero(&read_buffer, sizeof(read_buffer));
-        int read_state = read(fd, &read_buffer, sizeof(read_buffer));
+        int read_state = read(client_socket->getfd(), &read_buffer, sizeof(read_buffer));
         if(read_state > 0)
                 buffer -> Append(read_buffer, read_state); 
         if(read_state == 0){
-                std::cout << "the client out\n";
-                close(fd);
-                return;
+				std::cout << client_socket->getfd() << "client out\n";
+				return;
         }else{
 			break;
 		}
     }
+	
+	//test
+//	std::cout << buffer->Cstr() << std::endl;
 
  	// prase request
     request_ -> Parse(std::move(buffer));
@@ -57,9 +56,7 @@ void Connection::HttpConnection(int fd){
     
     // send response
     std::string response_message = response_ -> ToString();
-	std::cout << response_message;
-    write(fd, response_message.c_str(), response_message.size());
-    close(fd);	
+    write(client_socket->getfd(), response_message.c_str(), response_message.size());
 }
 
 //void Connection::Echo(int fd){

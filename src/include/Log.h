@@ -21,7 +21,7 @@ enum    LOG_TYPE
 class Log{
     public:
         static Log* getlog();
-        int WriteLog(LOG_LEVEL log_level, const char* file_name, const char* function, int line_number, const char* message);
+        void WriteLog(LOG_LEVEL log_level, const char* file_name, const char* function, int line_number, const char* message);
 
     private:
         // In singleton partten the constrctor is private

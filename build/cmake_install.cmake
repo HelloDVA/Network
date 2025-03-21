@@ -1,4 +1,4 @@
-# Install script for directory: /home/hello/Documents/network
+# Install script for directory: /home/hello/Documents/Network
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,8 +44,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/hello/Documents/network/build/src/cmake_install.cmake")
-  include("/home/hello/Documents/network/build/test/cmake_install.cmake")
+  include("/home/hello/Documents/Network/build/src/cmake_install.cmake")
+  include("/home/hello/Documents/Network/build/test/cmake_install.cmake")
 
 endif()
 
@@ -57,5 +57,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/hello/Documents/network/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/hello/Documents/Network/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

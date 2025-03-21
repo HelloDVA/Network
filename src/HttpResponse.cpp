@@ -14,7 +14,7 @@ HttpResponse::HttpResponse(){}
 HttpResponse::~HttpResponse(){}
 
 void HttpResponse::MakeResponse(std::string path, std::string version){
-    path_ = "/resources" + path;
+    path_ = "../resources" + path;
     version_ = version;
 
     // according to the path to make the body
@@ -27,14 +27,17 @@ void HttpResponse::MakeResponse(std::string path, std::string version){
         status_code_ = 200;
     }
     else{
-        std::ifstream error_file("404.html");
-        std::ostringstream buffer;
-        buffer << file.rdbuf();
-        body_ = buffer.str();
-        file.close();
-        status_code_ = 404;
+        std::ifstream error_file("../resources/404.html");
+		if(error_file.is_open()){
+        	std::ostringstream buffer;
+        	buffer << file.rdbuf();
+        	body_ = buffer.str();
+        	file.close();
+        	status_code_ = 404;
+		}
+		else
+			std::cout << "error file open failed\n";
     }
-    
     status_message_ = status_messages_.at(status_code_);
     content_type_ = "text/html";
     headers_["Connection"] = "close";
@@ -49,6 +52,5 @@ std::string HttpResponse::ToString() const{
     }
     response += "\r\n";
     response += body_;
-	std::cout << body_;
     return response;
 }

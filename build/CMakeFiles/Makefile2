@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hello/Documents/network
+CMAKE_SOURCE_DIR = /home/hello/Documents/Network
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hello/Documents/network/build
+CMAKE_BINARY_DIR = /home/hello/Documents/Network/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -114,14 +114,14 @@ test/clean: test/CMakeFiles/server.dir/clean
 src/CMakeFiles/pine_shared.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/hello/Documents/network/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14 "Built target pine_shared"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/hello/Documents/Network/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14 "Built target pine_shared"
 .PHONY : src/CMakeFiles/pine_shared.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/pine_shared.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/pine_shared.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/pine_shared.dir/rule
 
 # Convenience name for target.
@@ -140,14 +140,14 @@ src/CMakeFiles/pine_shared.dir/clean:
 test/CMakeFiles/server.dir/all: src/CMakeFiles/pine_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/hello/Documents/network/build/CMakeFiles --progress-num=15,16 "Built target server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/hello/Documents/Network/build/CMakeFiles --progress-num=15,16 "Built target server"
 .PHONY : test/CMakeFiles/server.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/server.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles 0
 .PHONY : test/CMakeFiles/server.dir/rule
 
 # Convenience name for target.

@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hello/Documents/network
+CMAKE_SOURCE_DIR = /home/hello/Documents/Network
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hello/Documents/network/build
+CMAKE_BINARY_DIR = /home/hello/Documents/Network/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/hello/Documents/network/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles /home/hello/Documents/network/build/test//CMakeFiles/progress.marks
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles 0
+	cd /home/hello/Documents/Network/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles /home/hello/Documents/Network/build/test//CMakeFiles/progress.marks
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/clean
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,22 +103,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/preinstall
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/preinstall
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/hello/Documents/network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/hello/Documents/Network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 test/CMakeFiles/server.dir/rule:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/server.dir/rule
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/server.dir/rule
 .PHONY : test/CMakeFiles/server.dir/rule
 
 # Convenience name for target.
@@ -127,7 +127,7 @@ server: test/CMakeFiles/server.dir/rule
 
 # fast build rule for target.
 server/fast:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/build
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/build
 .PHONY : server/fast
 
 server.o: server.cpp.o
@@ -135,7 +135,7 @@ server.o: server.cpp.o
 
 # target to build an object file
 server.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/server.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/server.cpp.o
 .PHONY : server.cpp.o
 
 server.i: server.cpp.i
@@ -143,7 +143,7 @@ server.i: server.cpp.i
 
 # target to preprocess a source file
 server.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/server.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/server.cpp.i
 .PHONY : server.cpp.i
 
 server.s: server.cpp.s
@@ -151,7 +151,7 @@ server.s: server.cpp.s
 
 # target to generate assembly for a file
 server.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/server.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server.dir/build.make test/CMakeFiles/server.dir/server.cpp.s
 .PHONY : server.cpp.s
 
 # Help Target
@@ -177,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/hello/Documents/network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/hello/Documents/Network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

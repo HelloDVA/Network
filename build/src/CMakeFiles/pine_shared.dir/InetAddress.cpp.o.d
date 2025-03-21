@@ -1,7 +1,7 @@
 src/CMakeFiles/pine_shared.dir/InetAddress.cpp.o: \
- /home/hello/Documents/network/src/InetAddress.cpp \
+ /home/hello/Documents/Network/src/InetAddress.cpp \
  /usr/include/stdc-predef.h \
- /home/hello/Documents/network/src/include/InetAddress.h \
+ /home/hello/Documents/Network/src/include/InetAddress.h \
  /usr/include/arpa/inet.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \

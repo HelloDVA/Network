@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 
 # the project name
-project(Documents/network)
+project(Documents/Network)
+
+#SET(CMAKE_BUILD_TYPE "Debug")
 
 
 # the c++ standard

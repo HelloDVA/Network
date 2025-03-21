@@ -1,6 +1,6 @@
 src/CMakeFiles/pine_shared.dir/Channel.cpp.o: \
- /home/hello/Documents/network/src/Channel.cpp /usr/include/stdc-predef.h \
- /home/hello/Documents/network/src/include/Channel.h \
+ /home/hello/Documents/Network/src/Channel.cpp /usr/include/stdc-predef.h \
+ /home/hello/Documents/Network/src/include/Channel.h \
  /usr/include/x86_64-linux-gnu/sys/epoll.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -57,7 +57,7 @@ src/CMakeFiles/pine_shared.dir/Channel.cpp.o: \
  /usr/include/c++/13/bits/exception.h /usr/include/c++/13/typeinfo \
  /usr/include/c++/13/bits/functexcept.h \
  /usr/include/c++/13/bits/exception_defines.h \
- /home/hello/Documents/network/src/include/EventLoop.h \
+ /home/hello/Documents/Network/src/include/EventLoop.h \
  /usr/include/c++/13/memory /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/c++/13/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \

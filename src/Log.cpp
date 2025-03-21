@@ -29,9 +29,9 @@ Log* Log::getlog(){
     return log;
 }
 
-int Log::WriteLog(LOG_LEVEL log_level, const char* file_name, const char* function, int line_number, const char* message){
+void Log::WriteLog(LOG_LEVEL log_level, const char* file_name, const char* function, int line_number, const char* message){
     if(log_level > log_level_){
-        return 0;
+		return;
     }
 
     // get date and time

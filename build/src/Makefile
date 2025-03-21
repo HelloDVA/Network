@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hello/Documents/network
+CMAKE_SOURCE_DIR = /home/hello/Documents/Network
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hello/Documents/network/build
+CMAKE_BINARY_DIR = /home/hello/Documents/Network/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/hello/Documents/network/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles /home/hello/Documents/network/build/src//CMakeFiles/progress.marks
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/network/build/CMakeFiles 0
+	cd /home/hello/Documents/Network/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles /home/hello/Documents/Network/build/src//CMakeFiles/progress.marks
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hello/Documents/Network/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,22 +103,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/hello/Documents/network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/hello/Documents/Network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/CMakeFiles/pine_shared.dir/rule:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/pine_shared.dir/rule
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/pine_shared.dir/rule
 .PHONY : src/CMakeFiles/pine_shared.dir/rule
 
 # Convenience name for target.
@@ -127,7 +127,7 @@ pine_shared: src/CMakeFiles/pine_shared.dir/rule
 
 # fast build rule for target.
 pine_shared/fast:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/build
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/build
 .PHONY : pine_shared/fast
 
 Acceptor.o: Acceptor.cpp.o
@@ -135,7 +135,7 @@ Acceptor.o: Acceptor.cpp.o
 
 # target to build an object file
 Acceptor.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Acceptor.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Acceptor.cpp.o
 .PHONY : Acceptor.cpp.o
 
 Acceptor.i: Acceptor.cpp.i
@@ -143,7 +143,7 @@ Acceptor.i: Acceptor.cpp.i
 
 # target to preprocess a source file
 Acceptor.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Acceptor.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Acceptor.cpp.i
 .PHONY : Acceptor.cpp.i
 
 Acceptor.s: Acceptor.cpp.s
@@ -151,7 +151,7 @@ Acceptor.s: Acceptor.cpp.s
 
 # target to generate assembly for a file
 Acceptor.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Acceptor.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Acceptor.cpp.s
 .PHONY : Acceptor.cpp.s
 
 Buffer.o: Buffer.cpp.o
@@ -159,7 +159,7 @@ Buffer.o: Buffer.cpp.o
 
 # target to build an object file
 Buffer.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Buffer.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Buffer.cpp.o
 .PHONY : Buffer.cpp.o
 
 Buffer.i: Buffer.cpp.i
@@ -167,7 +167,7 @@ Buffer.i: Buffer.cpp.i
 
 # target to preprocess a source file
 Buffer.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Buffer.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Buffer.cpp.i
 .PHONY : Buffer.cpp.i
 
 Buffer.s: Buffer.cpp.s
@@ -175,7 +175,7 @@ Buffer.s: Buffer.cpp.s
 
 # target to generate assembly for a file
 Buffer.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Buffer.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Buffer.cpp.s
 .PHONY : Buffer.cpp.s
 
 Channel.o: Channel.cpp.o
@@ -183,7 +183,7 @@ Channel.o: Channel.cpp.o
 
 # target to build an object file
 Channel.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Channel.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Channel.cpp.o
 .PHONY : Channel.cpp.o
 
 Channel.i: Channel.cpp.i
@@ -191,7 +191,7 @@ Channel.i: Channel.cpp.i
 
 # target to preprocess a source file
 Channel.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Channel.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Channel.cpp.i
 .PHONY : Channel.cpp.i
 
 Channel.s: Channel.cpp.s
@@ -199,7 +199,7 @@ Channel.s: Channel.cpp.s
 
 # target to generate assembly for a file
 Channel.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Channel.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Channel.cpp.s
 .PHONY : Channel.cpp.s
 
 Connection.o: Connection.cpp.o
@@ -207,7 +207,7 @@ Connection.o: Connection.cpp.o
 
 # target to build an object file
 Connection.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Connection.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Connection.cpp.o
 .PHONY : Connection.cpp.o
 
 Connection.i: Connection.cpp.i
@@ -215,7 +215,7 @@ Connection.i: Connection.cpp.i
 
 # target to preprocess a source file
 Connection.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Connection.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Connection.cpp.i
 .PHONY : Connection.cpp.i
 
 Connection.s: Connection.cpp.s
@@ -223,7 +223,7 @@ Connection.s: Connection.cpp.s
 
 # target to generate assembly for a file
 Connection.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Connection.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Connection.cpp.s
 .PHONY : Connection.cpp.s
 
 Epoll.o: Epoll.cpp.o
@@ -231,7 +231,7 @@ Epoll.o: Epoll.cpp.o
 
 # target to build an object file
 Epoll.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Epoll.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Epoll.cpp.o
 .PHONY : Epoll.cpp.o
 
 Epoll.i: Epoll.cpp.i
@@ -239,7 +239,7 @@ Epoll.i: Epoll.cpp.i
 
 # target to preprocess a source file
 Epoll.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Epoll.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Epoll.cpp.i
 .PHONY : Epoll.cpp.i
 
 Epoll.s: Epoll.cpp.s
@@ -247,7 +247,7 @@ Epoll.s: Epoll.cpp.s
 
 # target to generate assembly for a file
 Epoll.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Epoll.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Epoll.cpp.s
 .PHONY : Epoll.cpp.s
 
 EventLoop.o: EventLoop.cpp.o
@@ -255,7 +255,7 @@ EventLoop.o: EventLoop.cpp.o
 
 # target to build an object file
 EventLoop.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/EventLoop.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/EventLoop.cpp.o
 .PHONY : EventLoop.cpp.o
 
 EventLoop.i: EventLoop.cpp.i
@@ -263,7 +263,7 @@ EventLoop.i: EventLoop.cpp.i
 
 # target to preprocess a source file
 EventLoop.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/EventLoop.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/EventLoop.cpp.i
 .PHONY : EventLoop.cpp.i
 
 EventLoop.s: EventLoop.cpp.s
@@ -271,7 +271,7 @@ EventLoop.s: EventLoop.cpp.s
 
 # target to generate assembly for a file
 EventLoop.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/EventLoop.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/EventLoop.cpp.s
 .PHONY : EventLoop.cpp.s
 
 HttpRequest.o: HttpRequest.cpp.o
@@ -279,7 +279,7 @@ HttpRequest.o: HttpRequest.cpp.o
 
 # target to build an object file
 HttpRequest.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpRequest.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpRequest.cpp.o
 .PHONY : HttpRequest.cpp.o
 
 HttpRequest.i: HttpRequest.cpp.i
@@ -287,7 +287,7 @@ HttpRequest.i: HttpRequest.cpp.i
 
 # target to preprocess a source file
 HttpRequest.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpRequest.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpRequest.cpp.i
 .PHONY : HttpRequest.cpp.i
 
 HttpRequest.s: HttpRequest.cpp.s
@@ -295,7 +295,7 @@ HttpRequest.s: HttpRequest.cpp.s
 
 # target to generate assembly for a file
 HttpRequest.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpRequest.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpRequest.cpp.s
 .PHONY : HttpRequest.cpp.s
 
 HttpResponse.o: HttpResponse.cpp.o
@@ -303,7 +303,7 @@ HttpResponse.o: HttpResponse.cpp.o
 
 # target to build an object file
 HttpResponse.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpResponse.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpResponse.cpp.o
 .PHONY : HttpResponse.cpp.o
 
 HttpResponse.i: HttpResponse.cpp.i
@@ -311,7 +311,7 @@ HttpResponse.i: HttpResponse.cpp.i
 
 # target to preprocess a source file
 HttpResponse.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpResponse.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpResponse.cpp.i
 .PHONY : HttpResponse.cpp.i
 
 HttpResponse.s: HttpResponse.cpp.s
@@ -319,7 +319,7 @@ HttpResponse.s: HttpResponse.cpp.s
 
 # target to generate assembly for a file
 HttpResponse.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpResponse.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/HttpResponse.cpp.s
 .PHONY : HttpResponse.cpp.s
 
 InetAddress.o: InetAddress.cpp.o
@@ -327,7 +327,7 @@ InetAddress.o: InetAddress.cpp.o
 
 # target to build an object file
 InetAddress.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/InetAddress.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/InetAddress.cpp.o
 .PHONY : InetAddress.cpp.o
 
 InetAddress.i: InetAddress.cpp.i
@@ -335,7 +335,7 @@ InetAddress.i: InetAddress.cpp.i
 
 # target to preprocess a source file
 InetAddress.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/InetAddress.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/InetAddress.cpp.i
 .PHONY : InetAddress.cpp.i
 
 InetAddress.s: InetAddress.cpp.s
@@ -343,15 +343,39 @@ InetAddress.s: InetAddress.cpp.s
 
 # target to generate assembly for a file
 InetAddress.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/InetAddress.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/InetAddress.cpp.s
 .PHONY : InetAddress.cpp.s
+
+Log.o: Log.cpp.o
+.PHONY : Log.o
+
+# target to build an object file
+Log.cpp.o:
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Log.cpp.o
+.PHONY : Log.cpp.o
+
+Log.i: Log.cpp.i
+.PHONY : Log.i
+
+# target to preprocess a source file
+Log.cpp.i:
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Log.cpp.i
+.PHONY : Log.cpp.i
+
+Log.s: Log.cpp.s
+.PHONY : Log.s
+
+# target to generate assembly for a file
+Log.cpp.s:
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Log.cpp.s
+.PHONY : Log.cpp.s
 
 Server.o: Server.cpp.o
 .PHONY : Server.o
 
 # target to build an object file
 Server.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Server.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Server.cpp.o
 .PHONY : Server.cpp.o
 
 Server.i: Server.cpp.i
@@ -359,7 +383,7 @@ Server.i: Server.cpp.i
 
 # target to preprocess a source file
 Server.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Server.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Server.cpp.i
 .PHONY : Server.cpp.i
 
 Server.s: Server.cpp.s
@@ -367,7 +391,7 @@ Server.s: Server.cpp.s
 
 # target to generate assembly for a file
 Server.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Server.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Server.cpp.s
 .PHONY : Server.cpp.s
 
 Socket.o: Socket.cpp.o
@@ -375,7 +399,7 @@ Socket.o: Socket.cpp.o
 
 # target to build an object file
 Socket.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Socket.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Socket.cpp.o
 .PHONY : Socket.cpp.o
 
 Socket.i: Socket.cpp.i
@@ -383,7 +407,7 @@ Socket.i: Socket.cpp.i
 
 # target to preprocess a source file
 Socket.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Socket.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Socket.cpp.i
 .PHONY : Socket.cpp.i
 
 Socket.s: Socket.cpp.s
@@ -391,7 +415,7 @@ Socket.s: Socket.cpp.s
 
 # target to generate assembly for a file
 Socket.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Socket.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/Socket.cpp.s
 .PHONY : Socket.cpp.s
 
 ThreadPool.o: ThreadPool.cpp.o
@@ -399,7 +423,7 @@ ThreadPool.o: ThreadPool.cpp.o
 
 # target to build an object file
 ThreadPool.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.o
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.o
 .PHONY : ThreadPool.cpp.o
 
 ThreadPool.i: ThreadPool.cpp.i
@@ -407,7 +431,7 @@ ThreadPool.i: ThreadPool.cpp.i
 
 # target to preprocess a source file
 ThreadPool.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.i
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.i
 .PHONY : ThreadPool.cpp.i
 
 ThreadPool.s: ThreadPool.cpp.s
@@ -415,32 +439,8 @@ ThreadPool.s: ThreadPool.cpp.s
 
 # target to generate assembly for a file
 ThreadPool.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.s
+	cd /home/hello/Documents/Network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/ThreadPool.cpp.s
 .PHONY : ThreadPool.cpp.s
-
-utils.o: utils.cpp.o
-.PHONY : utils.o
-
-# target to build an object file
-utils.cpp.o:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/utils.cpp.o
-.PHONY : utils.cpp.o
-
-utils.i: utils.cpp.i
-.PHONY : utils.i
-
-# target to preprocess a source file
-utils.cpp.i:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/utils.cpp.i
-.PHONY : utils.cpp.i
-
-utils.s: utils.cpp.s
-.PHONY : utils.s
-
-# target to generate assembly for a file
-utils.cpp.s:
-	cd /home/hello/Documents/network/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/pine_shared.dir/build.make src/CMakeFiles/pine_shared.dir/utils.cpp.s
-.PHONY : utils.cpp.s
 
 # Help Target
 help:
@@ -478,6 +478,9 @@ help:
 	@echo "... InetAddress.o"
 	@echo "... InetAddress.i"
 	@echo "... InetAddress.s"
+	@echo "... Log.o"
+	@echo "... Log.i"
+	@echo "... Log.s"
 	@echo "... Server.o"
 	@echo "... Server.i"
 	@echo "... Server.s"
@@ -487,9 +490,6 @@ help:
 	@echo "... ThreadPool.o"
 	@echo "... ThreadPool.i"
 	@echo "... ThreadPool.s"
-	@echo "... utils.o"
-	@echo "... utils.i"
-	@echo "... utils.s"
 .PHONY : help
 
 
@@ -501,6 +501,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/hello/Documents/network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/hello/Documents/Network/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -1,6 +1,6 @@
 src/CMakeFiles/pine_shared.dir/Buffer.cpp.o: \
- /home/hello/Documents/network/src/Buffer.cpp /usr/include/stdc-predef.h \
- /home/hello/Documents/network/src/include/Buffer.h \
+ /home/hello/Documents/Network/src/Buffer.cpp /usr/include/stdc-predef.h \
+ /home/hello/Documents/Network/src/include/Buffer.h \
  /usr/include/c++/13/string /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \

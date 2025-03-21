@@ -17,4 +17,5 @@ class EventLoop
 
         void Loop();
         void UpdateChannel(Channel* ch);
+		void DeleteChannel(Channel* ch);
 };
