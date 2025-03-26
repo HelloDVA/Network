@@ -19,17 +19,17 @@ class Channel
         ~Channel();
 
         void setevents(uint32_t _events);
-        void setrevents(uint32_t _revents);
+        void setinepoll(bool _inepoll);
+		void setrevents(uint32_t _revents);
         uint32_t getevents();
         uint32_t getrevents();
-        bool getinepoll();
-        void setinepoll();
-
+		bool getinepoll();
+		
         int getfd();
-
         void setfunction(std::function<void()> _callback);
 
         void EnableRead();
         void EnableET();
         void HandleEvent();
+		void CloseChannel();
 };

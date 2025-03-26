@@ -13,13 +13,17 @@ EventLoop::~EventLoop(){}
 
 void EventLoop::Loop(){
     while(true){
-        std::vector<Channel*> channel_active = epoll->Poll();
-        int length = channel_active.size();
-        
         //use channel to add the task to ThreadPool
         //ThreadPool is running and waiting for process tasks
-        for(int i = 0; i < length; i ++)
-                channel_active[i] -> HandleEvent();
+        std::vector<Channel*> channel_active = epoll->Poll();
+        int length = channel_active.size();
+        for(int i = 0; i < length; i ++){
+            int revents_active = channel_active[i]->getrevents();
+			if(revents_active & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)){
+				continue;	
+			}
+			channel_active[i] -> HandleEvent();
+		}
     }
 }
 

@@ -9,18 +9,12 @@ class HttpRequest{
 		std::string method_;
 		std::string path_;
 		std::string version_;
-
 		std::map<std::string, std::string> header_;
-
 		std::string body_;
-
-	
 	public:
 		HttpRequest();
 		~HttpRequest();
-		                                               
-		void Parse(std::unique_ptr<Buffer> buffer);		
-
+		bool Parse(Buffer* buffer);		
 		std::string getversion();
 		std::string getpath();
 

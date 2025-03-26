@@ -27,7 +27,6 @@ Epoll::~Epoll(){
 void Epoll::UpdateChannel(Channel *ch){
     int fd = ch->getfd();
     struct epoll_event ev{};
-
     ev.events = ch->getevents();
     ev.data.ptr = ch;
     if(!ch->getinepoll()){
@@ -35,7 +34,7 @@ void Epoll::UpdateChannel(Channel *ch){
             Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "epoll add event error");
         }
         Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "epoll add event");    
-        ch -> setinepoll();
+        ch -> setinepoll(true);
     }
     else{
         if((epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &ev)) == -1){
@@ -46,13 +45,15 @@ void Epoll::UpdateChannel(Channel *ch){
 }
 
 void Epoll::DeleteChannel(Channel *ch){
-	int fd = ch->getfd();	
-    if((epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, nullptr)) == -1){
-            Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "epoll delete event error");
-        }
-	else{
-        Log::getlog()->WriteLog(LOG_LEVEL_DEBUG, __FILE__, __FUNCTION__, __LINE__, "epoll delete event");
+	if(ch->getinepoll()){
+		int fd = ch->getfd();	
+    	if((epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, nullptr)) == -1)
+            	Log::getlog()->WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "epoll delete event error");
+		else{
+			ch->setinepoll(false);
+        	Log::getlog()->WriteLog(LOG_LEVEL_DEBUG, __FILE__, __FUNCTION__, __LINE__, "epoll delete event");
 		}
+	}
 }
 
 std::vector<Channel*> Epoll::Poll(){

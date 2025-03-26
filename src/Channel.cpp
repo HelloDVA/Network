@@ -11,7 +11,8 @@ Channel::Channel(EventLoop *_loop, int _fd, bool _usethreadpool){
 }
 
 Channel::~Channel(){
-	loop->DeleteChannel(this);
+	if(inepoll)
+		loop->DeleteChannel(this);
 }
 
 void Channel::setevents(uint32_t _events){
@@ -34,13 +35,18 @@ uint32_t Channel::getrevents(){
    return revents; 
 }
 
-bool Channel::getinepoll(){
-    return inepoll;
-}
-
 void Channel::setfunction(std::function<void()> _callback){
     callback = _callback;
 }
+
+void Channel::setinepoll(bool _inepoll){
+    inepoll = _inepoll;
+}
+
+bool Channel::getinepoll(){
+    return inepoll;    
+}
+
 
 void Channel::EnableRead(){
    events = EPOLLIN | EPOLLPRI;
@@ -56,6 +62,6 @@ void Channel::HandleEvent(){
         callback();
 }
 
-void Channel::setinepoll(){
-   inepoll = true; 
+void Channel::CloseChannel(){
+	loop->DeleteChannel(this);
 }

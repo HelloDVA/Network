@@ -10,9 +10,9 @@
 #include"Log.h"
 #include"Socket.h"
 
+
 Connection::Connection(EventLoop *_loop, int _fd){
     loop = _loop;
-
 	client_socket = std::make_unique<Socket>(_fd);
     buffer = std::make_unique<Buffer>();
 	request_ = std::make_unique<HttpRequest>();
@@ -38,25 +38,27 @@ void Connection::HttpConnection(){
         if(read_state > 0)
                 buffer -> Append(read_buffer, read_state); 
         if(read_state == 0){
-				std::cout << client_socket->getfd() << "client out\n";
 				return;
         }else{
 			break;
 		}
     }
-	
-	//test
-//	std::cout << buffer->Cstr() << std::endl;
 
- 	// prase request
-    request_ -> Parse(std::move(buffer));
-
-    // create response
-    response_ -> MakeResponse(request_->getpath(), request_ -> getversion());
+ 	// prase request and create response
+    if(request_->Parse(buffer.get())){
+    	response_->MakeResponse(200, request_->getpath(), request_ -> getversion());
+	}
+	else{
+    	response_->MakeErrorResponse(request_ -> getversion());
+	}
     
     // send response
     std::string response_message = response_ -> ToString();
     write(client_socket->getfd(), response_message.c_str(), response_message.size());
+	buffer->Clean();
+	connection_channel->CloseChannel();
+	close(client_socket->getfd());
+	std::cout << "client out\n";
 }
 
 //void Connection::Echo(int fd){

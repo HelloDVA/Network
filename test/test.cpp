@@ -29,6 +29,7 @@ int main()
 			std::cout << "write error\n";
 		memset(&buffer, 0, sizeof(buffer));
 		ssize_t read_bytes = read(sock, buffer, sizeof(buffer));		
+		std::cout << buffer << std::endl;
 
 	}
 }

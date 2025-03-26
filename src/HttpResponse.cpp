@@ -1,4 +1,5 @@
 #include"HttpResponse.h"
+#include"Log.h"
 #include<iostream>
 #include<fstream>
 #include<sstream>
@@ -9,13 +10,18 @@ const std::map<int, std::string> HttpResponse::status_messages_ = {
 	{500, "Internal Server Error"}
 };
 
-HttpResponse::HttpResponse(){}
+HttpResponse::HttpResponse(){
+	RESOURCE_DIR = "../resources/me"; 
+}
 
 HttpResponse::~HttpResponse(){}
 
-void HttpResponse::MakeResponse(std::string path, std::string version){
-    path_ = "../resources" + path;
-    version_ = version;
+void HttpResponse::MakeResponse(int status_code, std::string path, std::string version){
+    path_ = RESOURCE_DIR + path;
+	status_code_ = status_code;
+
+	//test
+	std::cout << "resource path:" << path_ << std::endl;
 
     // according to the path to make the body
     std::ifstream file(path_);
@@ -24,24 +30,36 @@ void HttpResponse::MakeResponse(std::string path, std::string version){
         buffer << file.rdbuf();
         body_ = buffer.str();
         file.close();
-        status_code_ = 200;
     }
-    else{
-        std::ifstream error_file("../resources/404.html");
-		if(error_file.is_open()){
-        	std::ostringstream buffer;
-        	buffer << file.rdbuf();
-        	body_ = buffer.str();
-        	file.close();
-        	status_code_ = 404;
-		}
-		else
-			std::cout << "error file open failed\n";
-    }
+	else{
+		MakeErrorResponse(version_);		
+	}
     status_message_ = status_messages_.at(status_code_);
     content_type_ = "text/html";
     headers_["Connection"] = "close";
 }
+
+void HttpResponse::MakeErrorResponse(std::string version){
+    path_ = RESOURCE_DIR + "/404.html";
+    version_ = version;
+	status_code_ = 404;
+
+    // according to the path to make the body
+    std::ifstream file(path_);
+    if (file.is_open()) {
+        std::ostringstream buffer;
+        buffer << file.rdbuf();
+        body_ = buffer.str();
+        file.close();
+    }
+	else{
+    Log::getlog() -> WriteLog(LOG_LEVEL_ERROR, __FILE__, __FUNCTION__, __LINE__, "open error page error");
+	}
+    status_message_ = status_messages_.at(status_code_);
+    content_type_ = "text/html";
+    headers_["Connection"] = "close";
+}
+
 
 std::string HttpResponse::ToString() const{
     std::string response;

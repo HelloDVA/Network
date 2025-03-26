@@ -28,7 +28,7 @@ void Acceptor::AcceptConnection(){
     int client_fd = -1;
     socket -> Accept(client_fd);
 	// set block socket. do not let the server return error meessage
-    //fcntl(client_fd, F_SETFL, fcntl(client_fd, F_GETFL) | O_NONBLOCK);
+    fcntl(client_fd, F_SETFL, fcntl(client_fd, F_GETFL) | O_NONBLOCK);
     newconnectioncallback(client_fd);
 }
 

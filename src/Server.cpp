@@ -49,6 +49,5 @@ void Server::ConnectNew(int client_fd){
 }
 
 void Server::DeleteConnection(int fd){
-	std::cout << fd << "connection close\n";
     connections.erase(fd);
 }
