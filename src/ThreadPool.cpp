@@ -2,7 +2,6 @@
 
 ThreadPool::ThreadPool(int size) : stop(false){
     // threads keep testing task queue. If task queue ready, thread will execute task. 
-    
     for(int i = 0;i < size;i ++){
         threads.emplace_back(std::thread([this](){
                         while(true){
@@ -35,12 +34,3 @@ ThreadPool::~ThreadPool(){
             thread.join();
     } 
 }
-
-//void ThreadPool::add(std::function<void()> func)
-//{
-//    std::unique_lock<std::mutex> lock(task_mutex);
-//    if(stop)   
-//        throw std::runtime_error("ThreadPool aleday stop, can't add task any more");
-//    tasks.emplace(func);
-//    cv.notify_one();
-//}

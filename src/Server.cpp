@@ -15,16 +15,19 @@ Server::Server(){
     // use main_reactor create Acceptor. Acceptor will let server get new connections
 	main_reactor = std::make_unique<EventLoop>();
     Log::getlog()->WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "main reactor is created");
+
 	int size = 1;
     for(int i = 0; i < size; i ++){
 		std::unique_ptr<EventLoop> subreactor = std::make_unique<EventLoop>();
 		reactors.push_back(std::move(subreactor));
 	}
     Log::getlog() -> WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "subreactors ready");
+
     acceptor = std::make_unique<Acceptor>(main_reactor.get());
-    Log::getlog() -> WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "Acceptor ready");
     std::function<void(int)> cb = std::bind(&Server::ConnectNew, this, std::placeholders::_1);
     acceptor -> setnewconnectioncallback(cb);
+    Log::getlog() -> WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "Acceptor ready");
+    
     threadpool = std::make_unique<ThreadPool>(size);
     Log::getlog() -> WriteLog(LOG_LEVEL_INFO, __FILE__, __FUNCTION__, __LINE__, "ThreadPool ready");
 }

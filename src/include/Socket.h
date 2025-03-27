@@ -1,7 +1,5 @@
 #pragma once
-
 #include"common.h"
-class InetAddress;
 
 class Socket{
     private:
@@ -19,7 +17,5 @@ class Socket{
         RC Accept(int &clientfd);
         RC Connect(const char *ip, uint16_t port);
         RC SetNonBlocking();
-        bool IsNonBlocking();
-
 };
 

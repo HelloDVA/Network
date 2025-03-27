@@ -3,11 +3,8 @@
 #include<fcntl.h>
 #include<unistd.h>
 #include<assert.h>
-#include"InetAddress.h" 
 #include"Socket.h" 
 #include"Log.h"
-
-using namespace std;
 
 Socket::Socket(){
 	fd = 0;
