@@ -22,5 +22,4 @@ class EpollPoller : public Poller {
         static const int MAX_EVENTS = 1024;
         int epollfd_;
         std::vector<epoll_event> events_;   // keep the active events
-
 };

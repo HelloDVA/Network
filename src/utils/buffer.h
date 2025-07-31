@@ -8,7 +8,7 @@
 class Buffer {
 public:
     // 从文件描述符读取数据到缓冲区
-    ssize_t ReadFd(int fd, int* savedErrno);
+    size_t ReadFd(int fd, int* savedErrno);
     
     // 缓冲区基本操作
     void Append(const char* data, size_t len);
