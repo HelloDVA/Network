@@ -1,6 +1,9 @@
 #pragma once
+
 #include <vector>
-#include "Channel.h"
+
+class Channel;
+class EventLoop;
 
 class Poller {
 public:

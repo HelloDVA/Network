@@ -1,16 +1,20 @@
-#include"eventloop.h"
-#include"epoll.h"
+#include <unistd.h>
 
 #include <memory>
+#include <stdexcept>
+
+#include"eventloop.h"
+#include"epollpoller.h"
+
+#include "channel.h"
 
 EventLoop::EventLoop() 
-    : looping_(false), 
-    quit_(false),
-    looping_(false),
+    : poller_(std::make_unique<EpollPoller>()), 
+    wakeup_fd_(-1),
     thread_id_(std::this_thread::get_id()),
-    weakup_fd_(-1),
+    looping_(false),
+    quiting_(false)
     {
-
 }
 
 EventLoop::~EventLoop(){}
@@ -18,12 +22,12 @@ EventLoop::~EventLoop(){}
 void EventLoop::Loop() {
     AssertInLoopThread();
     looping_ = true;
-    quit_ = false;
+    quiting_ = false;
 
-    while (!quit_) {
+    while (!quiting_) {
         activate_channels_.clear();
         // Poll events from the poller
-        poller_->Poll(-1, &activate_channels_);
+        poller_->Poll(-1, activate_channels_);
 
         // network events first
         for (Channel* channel : activate_channels_) {
@@ -34,6 +38,16 @@ void EventLoop::Loop() {
         DoPendingFunctors();
     }
     looping_ = false;
+}
+
+void EventLoop::UpdateChannel(Channel* channel) {
+    AssertInLoopThread();
+    poller_->UpdateChannel(channel);
+}
+
+void EventLoop::RemoveChannel(Channel* channel) {
+    AssertInLoopThread();
+    poller_->RemoveChannel(channel);
 }
 
 void EventLoop::DoPendingFunctors() {
@@ -49,7 +63,7 @@ void EventLoop::DoPendingFunctors() {
 }
 
 void EventLoop::Quit() {
-    quit_ = true;
+    quiting_ = true;
     if (!IsInLoopThread()) {
         Wakeup();  
     }
@@ -58,11 +72,10 @@ void EventLoop::Quit() {
 void EventLoop::RunInLoop(Functor cb) {
     // If we're already in the loop thread, run the callback immediately
     // Otherwise, queue it to be run later
-    if (IsInLoopThread()) {
+    if (IsInLoopThread()) 
         cb();
-    } else {
+    else 
         QueueInLoop(std::move(cb));
-    }
 }
 
 void EventLoop::QueueInLoop(Functor cb) {
@@ -87,7 +100,7 @@ void EventLoop::AssertInLoopThread() {
 
 void EventLoop::Wakeup() {
     uint64_t one = 1;
-    ssize_t n = sockets::Write(weakup_fd_, &one, sizeof one);
+    ssize_t n = ::write(wakeup_fd_, &one, sizeof(one));
     if (n != sizeof one) {
         throw std::runtime_error("EventLoop::Wakeup - write wakeup failed");
     }

@@ -35,7 +35,11 @@ void Channel::HandleEvent() {
 }
 
 void Channel::Update() {
-    loop_->UpdateChannel(shared_from_this());
+    loop_->UpdateChannel(this);
+}
+
+void Channel::Remove() {
+    loop_->RemoveChannel(this);
 }
 
 

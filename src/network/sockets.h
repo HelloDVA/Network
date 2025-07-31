@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include <cstddef>
 class InetAddress;
 
 namespace sockets {
@@ -8,7 +9,8 @@ namespace sockets {
     void Bind(int sockfd, const InetAddress& addr);
     void Connect(const InetAddress& addr);
     void Listen(int sockfd);
-    int Accept(int sockfd, InetAddress* addr);
+    void Accept(int sockfd, InetAddress* addr);
     void Close(int sockfd);
-    void Write(int sockfd);
+    size_t Write(int sockfd, const void* buf, size_t count);
+    int GetError(int sockfd);
 }

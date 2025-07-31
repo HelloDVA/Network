@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../utils/buffer.h"
+
 #include <memory>
 #include <string>
 #include <functional>
@@ -7,11 +9,13 @@
 #include "eventloop.h"
 #include "channel.h"
 #include "inetaddress.h"
-#include "buffer.h"
+
+
 
 class TcpConnection : public std::enable_shared_from_this<TcpConnection> {
 public:
     using TcpConnectionPtr = std::shared_ptr<TcpConnection>;
+
     using ReadCallback = std::function<void(const TcpConnectionPtr&, Buffer*)>;
     using WriteCallback = std::function<void(const TcpConnectionPtr&, Buffer*)>;
     using CloseCallback = std::function<void(const TcpConnectionPtr&)>;
@@ -23,16 +27,14 @@ public:
                   const InetAddress& localAddr,
                   const InetAddress& peerAddr);
     ~TcpConnection();
-
-    // 连接操作
+    
+    // when create and close do in loop
     void ConnectEstablished();   // 连接建立完成
     void ConnectDestroyed();     // 连接销毁
-
-    // 数据发送
-    void Send(const std::string& message);
-    void Send(Buffer* message);
     
-    // 关闭连接
+    // server initivative methods
+    void Send(const std::string& message); // 数据发送
+    void Send(Buffer* message);
     void Shutdown();             // 关闭写端
 
     EventLoop* getloop() const { return loop_; }
@@ -40,7 +42,6 @@ public:
     const InetAddress& getlocaladdr() const { return local_addr_; }
     const InetAddress& getpeeraddr() const { return peer_addr_; }
     bool state() const { return state_ == kConnected; }
-    // 设置回调函数
     void setreadcallback(ReadCallback cb) { read_callback_ = std::move(cb); }
     void setwritecallback(WriteCallback cb) { write_callback_ = std::move(cb); }
     void setclosecallback(CloseCallback cb) { close_callback_ = std::move(cb); }
@@ -48,13 +49,16 @@ public:
 
 private:
     enum State { kDisconnected, kConnecting, kConnected, kDisconnecting };
-
+    void setstate(State s) { state_ = s; }
+    
+    // server passive methods 
+    // callback for channel 
     void HandleRead();
     void HandleWrite();
     void HandleClose();
     void HandleError();
-
-    void setstate(State s) { state_ = s; }
+    
+    // do action in loop
     void SendInLoop(const std::string& message);
     void ShutdownInLoop();
 

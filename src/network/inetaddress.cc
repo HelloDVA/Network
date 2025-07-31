@@ -1,8 +1,12 @@
 
-
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "inetaddress.h"
 
+InetAddress::InetAddress() {}
 
 InetAddress::InetAddress(const char *ip, uint16_t port) {
     addr_.sin_family = AF_INET;

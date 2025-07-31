@@ -1,8 +1,12 @@
 
 
 #include <sys/socket.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "sockets.h"
+#include "inetaddress.h"
 
 
 int sockets::CreateNonblockingOrDie() {
@@ -15,7 +19,7 @@ int sockets::CreateNonblockingOrDie() {
 }
 
 void sockets::Bind(int sockfd, const InetAddress& addr) {
-    const struct sockaddr_in& addr_in = addr.getsockaddr();
+    const struct sockaddr_in &addr_in = addr.getsockaddr();
     int ret = ::bind(sockfd, (struct sockaddr*)&addr_in, sizeof(addr_in));
     if (ret < 0) {
         perror("Bind socket failed");
@@ -56,4 +60,13 @@ void sockets::Close(int sockfd) {
         perror("Close socket failed");
         exit(EXIT_FAILURE);
     }
+}
+
+size_t sockets::Write(int sockfd, const void* buf, size_t count) {
+    return ::write(sockfd, buf, count); 
+}
+
+int sockets::GetError(int sockfd) {
+    return 0;
+    
 }

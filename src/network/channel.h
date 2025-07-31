@@ -1,8 +1,9 @@
 #pragma once
 #include <functional>
-#include "EventLoop.h"
 
-class Channel : public std::enable_shared_from_this<Channel> {
+#include "eventloop.h"
+
+class Channel {
 public:
     using EventCallback = std::function<void()>;
     using ReadEventCallback = std::function<void()>;
@@ -11,6 +12,16 @@ public:
     ~Channel();
 
     void HandleEvent();
+    void EnableReading() { events_ |= kReadEvent; Update(); }
+    void DisableReading() { events_ &= ~kReadEvent; Update(); }
+    void EnableWriting() { events_ |= kWriteEvent; Update(); }
+    void DisableWriting() { events_ &= ~kWriteEvent; Update(); }
+    void DisableAll() { events_ = 0; Update(); }
+    void RemoveChannel() { Remove(); }
+
+    bool IsReading() const { return events_ & kReadEvent; }
+    bool IsWriting() const { return events_ & kWriteEvent; }
+
     void setreadcallback(ReadEventCallback cb) { read_callback_ = std::move(cb); }
     void setwritecallback(EventCallback cb) { write_callback_ = std::move(cb); }
     void setclosecallback(EventCallback cb) { close_callback_ = std::move(cb); }
@@ -20,17 +31,12 @@ public:
     int getstate() const { return state_; }
     int getfd() const { return fd_; }
     int getevents() const { return events_; }
-    void EnableReading() { events_ |= kReadEvent; Update(); }
-    void DisableAll() { events_ = 0; Update(); }
 
 private:
     void Update();
+    void Remove();
 
-    static const int kReadEvent;
-    static const int kWriteEvent;
-    static const int kCloseEvent;
-    static const int kErrorEvent;
-
+private:
     EventLoop* loop_;
     int fd_;
     int events_;
@@ -41,4 +47,9 @@ private:
     EventCallback write_callback_;
     EventCallback close_callback_;
     EventCallback error_callback_;
+
+    static const int kReadEvent;
+    static const int kWriteEvent;
+    static const int kCloseEvent;
+    static const int kErrorEvent;
 };
