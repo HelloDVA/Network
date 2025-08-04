@@ -23,11 +23,13 @@ EventLoopThread::~EventLoopThread() {
 
 EventLoop* EventLoopThread::StartLoop() {
   assert(!thread_.joinable()); 
-
+  
+  // create thread bind function.
+  // in function create loop and start loop.
   thread_ = std::thread([this] () {ThreadFunc();});
-
+  
+  // waitting the loop_ created.
   EventLoop* loop;
-  // waitting the loop_ created
   {
     std::unique_lock<std::mutex> lock(mutex_);
     while (loop_ == nullptr)
@@ -38,6 +40,7 @@ EventLoop* EventLoopThread::StartLoop() {
 }
 
 void EventLoopThread::ThreadFunc() {
+  // create loop and choose to initivate the loop.
   EventLoop loop;
   if (callback_)
     callback_(&loop);
@@ -47,7 +50,6 @@ void EventLoopThread::ThreadFunc() {
     loop_ = &loop;
     cv_.notify_one();
   }
-
   loop.Loop(); 
 
   std::lock_guard<std::mutex> lock(mutex_);

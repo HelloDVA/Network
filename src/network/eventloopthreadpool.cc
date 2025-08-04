@@ -2,8 +2,6 @@
 #include <cstddef>
 #include <memory>
 
-
-
 #include "eventloopthreadpool.h"
 #include "eventloopthread.h"
 #include "eventloop.h"
@@ -15,7 +13,6 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop* base_loop, const std::string
     num_thread_(num_thread),
     next_(0) {
 }
-
 
 EventLoopThreadPool::~EventLoopThreadPool() {}
 

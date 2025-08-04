@@ -16,16 +16,16 @@ class EventLoop
 
         EventLoop();
         ~EventLoop();
-
+        
+        // process network io and other things
         void Loop();
-
-        void UpdateChannel(Channel* channel);
-        void RemoveChannel(Channel* channel);
-
         // if the task is mine call cb
         // else add cb to pending_functors_ waiting its master
         void RunInLoop(Functor cb);
         void QueueInLoop(Functor cb);
+
+        void UpdateChannel(Channel* channel);
+        void RemoveChannel(Channel* channel);
 
         void Quit();
         void Wakeup();  
