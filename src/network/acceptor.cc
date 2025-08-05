@@ -13,7 +13,6 @@ Acceptor::Acceptor(EventLoop* loop, const InetAddress& addr)
       accept_channel_(nullptr), 
       listen_addr_(addr) {
     // Initialize accept_channel_ here, e.g., create a Channel for the listening socket
-
     accept_socket_fd_ = sockets::CreateNonblockingOrDie();
     sockets::Bind(accept_socket_fd_, listen_addr_);
 
@@ -31,14 +30,14 @@ void Acceptor::Listen() {
     loop_->AssertInLoopThread();
     sockets::Listen(accept_socket_fd_);
     accept_channel_->EnableReading();
-    std::cout << "acceptor 34 acceptor start\n";
 }
 
 void Acceptor::HandleRead() {
     InetAddress* peer_addr = new InetAddress();
-    sockets::Accept(accept_socket_fd_, peer_addr);
+    int connfd = sockets::Accept(accept_socket_fd_, peer_addr);
     sockets::SetNonBlocking(accept_socket_fd_);
     if (newconnectioncallback_) {
-        newconnectioncallback_(accept_socket_fd_, *peer_addr);
+        newconnectioncallback_(connfd, *peer_addr);
     }
+    delete peer_addr;
 }

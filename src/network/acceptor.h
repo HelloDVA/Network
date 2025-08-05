@@ -28,7 +28,6 @@ class Acceptor {
     private:
         EventLoop *loop_;
         InetAddress listen_addr_;
-
         std::unique_ptr<Channel> accept_channel_;
         int accept_socket_fd_;
         NewConnectionCallback newconnectioncallback_;

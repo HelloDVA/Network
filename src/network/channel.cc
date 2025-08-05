@@ -1,6 +1,8 @@
 
 #include <sys/epoll.h>
 
+#include <iostream>
+
 #include "channel.h"
 #include "epollpoller.h"
 
@@ -32,7 +34,8 @@ void Channel::HandleEvent() {
 }
 
 void Channel::Update() {
-    loop_->UpdateChannel(this);
+  std::cout << "Channel::Update() called for fd=" << fd_ << std::endl;
+  loop_->UpdateChannel(this);
 }
 
 void Channel::Remove() {

@@ -50,6 +50,7 @@ void EventLoop::Loop() {
 }
 
 void EventLoop::UpdateChannel(Channel* channel) {
+    std::cout << "EventLoop::UpdateChannel() called" << std::endl;
     AssertInLoopThread();
     poller_->UpdateChannel(channel);
 }

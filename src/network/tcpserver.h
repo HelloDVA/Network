@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <functional>
@@ -15,7 +14,6 @@ class InetAddress;
 class EventLoopThreadPool;
 class TcpConnection;
 
-
 class TcpServer {
 public:
     using ConnectionCallback = std::function<void(const TcpConnectionPtr&)>;
@@ -30,6 +28,7 @@ public:
     void setconnectioncallback(const ConnectionCallback& cb) { connection_callback_ = cb; }
     void setmessagecallback(const MessageCallback& cb) { message_callback_ = cb; }
     void setthreadinitcallback(const ThreadInitCallback& cb) { thread_init_callback_ = cb; }
+
 private:
     // process new connection
     void NewConnection(int sockfd, const InetAddress& peer_addr);

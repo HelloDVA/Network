@@ -56,7 +56,7 @@ void sockets::Connect(const InetAddress& addr) {
     }
 }
 
-void sockets::Accept(int sockfd, InetAddress* addr) {
+int sockets::Accept(int sockfd, InetAddress* addr) {
     struct sockaddr_in addr_in;
     socklen_t addr_len = sizeof(addr_in);
     int client_fd = ::accept(sockfd, (struct sockaddr*)&addr_in, &addr_len);
@@ -65,7 +65,7 @@ void sockets::Accept(int sockfd, InetAddress* addr) {
         exit(EXIT_FAILURE);
     }
     addr->setsockaddr(addr_in);
-    std::cout << "sockets 67 accept success\n";
+    return client_fd;
 }
 
 void sockets::Close(int sockfd) {
