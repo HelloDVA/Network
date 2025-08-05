@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 2.0)
 # set the proejct name
 project(Documents/Network)
 
+# -DCMAKE_BUILD_TYPE=Debug
+
 # set the c++ version
 set(CMAKE_CXX_STANDARD 14)
 

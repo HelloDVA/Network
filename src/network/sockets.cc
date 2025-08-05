@@ -1,9 +1,14 @@
 
 
+#include <stdexcept>
 #include <sys/socket.h>
+#include <sys/eventfd.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+
+#include <iostream>
 
 #include "sockets.h"
 #include "inetaddress.h"
@@ -16,6 +21,13 @@ int sockets::CreateNonblockingOrDie() {
         exit(EXIT_FAILURE);
     }
     return sockfd;
+}
+
+int sockets::CreateEventFd() {
+    int evtfd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); 
+    if (evtfd < 0)
+        throw std::runtime_error("Failed to create eventfd");
+    return evtfd;
 }
 
 void sockets::Bind(int sockfd, const InetAddress& addr) {
@@ -44,7 +56,7 @@ void sockets::Connect(const InetAddress& addr) {
     }
 }
 
-void sockets::Accept(int sockfd, InetAddress* addr) {
+int sockets::Accept(int sockfd, InetAddress* addr) {
     struct sockaddr_in addr_in;
     socklen_t addr_len = sizeof(addr_in);
     int client_fd = ::accept(sockfd, (struct sockaddr*)&addr_in, &addr_len);
@@ -53,6 +65,7 @@ void sockets::Accept(int sockfd, InetAddress* addr) {
         exit(EXIT_FAILURE);
     }
     addr->setsockaddr(addr_in);
+    return client_fd;
 }
 
 void sockets::Close(int sockfd) {
@@ -68,5 +81,11 @@ size_t sockets::Write(int sockfd, const void* buf, size_t count) {
 
 int sockets::GetError(int sockfd) {
     return 0;
-    
+}
+
+void sockets::SetNonBlocking(int sockfd) { 
+    int state = fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL)|O_NONBLOCK);
+	if(state == -1){
+		perror("Socket set nonblock error");
+	}
 }

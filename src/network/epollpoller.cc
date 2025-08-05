@@ -34,14 +34,30 @@ void EpollPoller::Poll(int timeout_ms, std::vector<Channel*>& active_channels) {
 
 void EpollPoller::UpdateChannel(Channel* channel) { 
     int fd = channel->getfd();
+    std::cout << "EpollPoller::UpdateChannel() called for fd=" << fd << std::endl;
+    
     struct epoll_event ev{};
     ev.events = channel->getevents();
     ev.data.ptr = channel;
     int operation = channel->getstate() < 0 ? EPOLL_CTL_ADD : EPOLL_CTL_MOD;
+    
+    std::cout << "epoll_ctl operation: " << (operation == EPOLL_CTL_ADD ? "ADD" : "MOD") 
+              << " fd=" << fd << " events=" << ev.events << std::endl;
+              
     if(epoll_ctl(epollfd_, operation, fd, &ev) < 0) {
-        std::cout << "epoll_ctl error" << std::endl;
+        std::cout << "epoll_ctl error: " << strerror(errno) << std::endl;
     }
     channel->setstate(0);
+    std::cout << "EpollPoller::UpdateChannel() completed for fd=" << fd << std::endl;
+    /* int fd = channel->getfd(); */
+    /* struct epoll_event ev{}; */
+    /* ev.events = channel->getevents(); */
+    /* ev.data.ptr = channel; */
+    /* int operation = channel->getstate() < 0 ? EPOLL_CTL_ADD : EPOLL_CTL_MOD; */
+    /* if(epoll_ctl(epollfd_, operation, fd, &ev) < 0) { */
+    /*     std::cout << "epoll_ctl error" << std::endl; */
+    /* } */
+    /* channel->setstate(0); */
 }
 
 void EpollPoller::RemoveChannel(Channel* channel) { 

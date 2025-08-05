@@ -1,8 +1,7 @@
 #include <cassert>
 #include <cstddef>
 #include <memory>
-
-
+#include <iostream>
 
 #include "eventloopthreadpool.h"
 #include "eventloopthread.h"
@@ -16,7 +15,6 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop* base_loop, const std::string
     next_(0) {
 }
 
-
 EventLoopThreadPool::~EventLoopThreadPool() {}
 
 void EventLoopThreadPool::Start(const ThreadInitCallback& cb) {
@@ -28,6 +26,7 @@ void EventLoopThreadPool::Start(const ThreadInitCallback& cb) {
 
   for (int i = 0; i < num_thread_; i ++) {
     std::string name = "IOthread" + std::to_string(i);
+    std::cout << "threadpool 29" << name << std::endl;
     std::unique_ptr<EventLoopThread> t = std::make_unique<EventLoopThread>(cb, name);
     loops_.push_back(t->StartLoop());
     threads_.push_back(std::move(t));

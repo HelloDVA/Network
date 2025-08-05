@@ -1,6 +1,8 @@
 
 #include <sys/epoll.h>
 
+#include <iostream>
+
 #include "channel.h"
 #include "epollpoller.h"
 
@@ -20,22 +22,20 @@ Channel::Channel(EventLoop *loop, int fd)
 Channel::~Channel() {}
 
 void Channel::HandleEvent() { 
-    if (revents_ & kReadEvent && read_callback_) {
-        read_callback_();
-    }
-    if (revents_ & kWriteEvent && write_callback_) {
-        write_callback_();
-    }
-    if (revents_ & kCloseEvent && close_callback_) {
-        close_callback_();
-    }
-    if (revents_ & kErrorEvent && error_callback_) {
+    // priority from high to low
+    if (revents_ & kErrorEvent && error_callback_) 
         error_callback_();
-    }
+    if (revents_ & kCloseEvent && close_callback_) 
+        close_callback_();
+    if (revents_ & kReadEvent && read_callback_) 
+        read_callback_();
+    if (revents_ & kWriteEvent && write_callback_) 
+        write_callback_();
 }
 
 void Channel::Update() {
-    loop_->UpdateChannel(this);
+  std::cout << "Channel::Update() called for fd=" << fd_ << std::endl;
+  loop_->UpdateChannel(this);
 }
 
 void Channel::Remove() {

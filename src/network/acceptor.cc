@@ -1,5 +1,6 @@
 
 
+#include <iostream>
 #include <memory>
 
 #include "acceptor.h"
@@ -12,15 +13,11 @@ Acceptor::Acceptor(EventLoop* loop, const InetAddress& addr)
       accept_channel_(nullptr), 
       listen_addr_(addr) {
     // Initialize accept_channel_ here, e.g., create a Channel for the listening socket
-
     accept_socket_fd_ = sockets::CreateNonblockingOrDie();
     sockets::Bind(accept_socket_fd_, listen_addr_);
 
     accept_channel_ = std::make_unique<Channel>(loop_, accept_socket_fd_);
     accept_channel_->setreadcallback([this]() {HandleRead();});
-
-    loop_->AssertInLoopThread();
-    accept_channel_->EnableReading();
 }
 
 Acceptor::~Acceptor() {
@@ -30,13 +27,17 @@ Acceptor::~Acceptor() {
 }
 
 void Acceptor::Listen() {
+    loop_->AssertInLoopThread();
     sockets::Listen(accept_socket_fd_);
+    accept_channel_->EnableReading();
 }
 
 void Acceptor::HandleRead() {
     InetAddress* peer_addr = new InetAddress();
-    sockets::Accept(accept_socket_fd_, peer_addr);
+    int connfd = sockets::Accept(accept_socket_fd_, peer_addr);
+    sockets::SetNonBlocking(accept_socket_fd_);
     if (newconnectioncallback_) {
-        newconnectioncallback_(accept_socket_fd_, *peer_addr);
+        newconnectioncallback_(connfd, *peer_addr);
     }
+    delete peer_addr;
 }
