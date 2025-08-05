@@ -7,6 +7,7 @@
 
 class InetAddress {
     public:
+        InetAddress();
         InetAddress(const char *ip, uint16_t port);
         InetAddress(uint16_t port, bool ipv6 = false);
         InetAddress(struct sockaddr_in &addr) : addr_(addr) {};

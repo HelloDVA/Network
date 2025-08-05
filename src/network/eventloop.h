@@ -3,8 +3,10 @@
 #include <memory>
 #include <vector>
 #include <mutex>
+#include <thread>
 
-class Epoll;
+
+class EpollPoller;
 class Channel;
 
 class EventLoop
@@ -16,33 +18,36 @@ class EventLoop
         ~EventLoop();
 
         void Loop();
-        void Quit();
+
+        void UpdateChannel(Channel* channel);
+        void RemoveChannel(Channel* channel);
 
         // if the task is mine call cb
         // else add cb to pending_functors_ waiting its master
         void RunInLoop(Functor cb);
         void QueueInLoop(Functor cb);
 
+        void Quit();
         void Wakeup();  
+        // test the current thread whether is the loop thread
         bool IsInLoopThread() const;
-
         // make sure the action is running in the loop thread
         void AssertInLoopThread();
+
         
     private:
         void DoPendingFunctors();
-
-        std::unique_ptr<Epoll> poller_;
-        vector<Channel*> activate_channels_;
+    
+    private:
+        std::unique_ptr<EpollPoller> poller_;
+        std::vector<Channel*> activate_channels_;
+        
+        std::mutex mutex_;
+        std::vector<Functor> pending_functors_;
+        int wakeup_fd_;
+        std::thread::id thread_id_;
 
         // event loop state
         bool looping_;
-        bool quit_;
-
-        int wakeup_fd_;
-
-        std::thread::id thread_id_;
-
-        std::mutex mutex_;
-        std::vector<Functor> pending_functors_;
+        bool quiting_;
 };

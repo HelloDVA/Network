@@ -1,11 +1,15 @@
+#include <string.h>
+#include <unistd.h>
 
+#include <iostream>
 
+#include "channel.h"
 #include "epollpoller.h"
 
 
 EpollPoller::EpollPoller() {
     epollfd_ = epoll_create1(0);
-
+    
     events_ = new epoll_event[MAX_EVENTS];
     memset(events_, 0, sizeof(epoll_event) * MAX_EVENTS);
 }
@@ -15,14 +19,14 @@ EpollPoller::~EpollPoller() {
     delete[] events_;
 }
 
-void EpollPoller::Poll(int timeout_ms, std::vector<std::shared_ptr<Channel>>& active_channels) { 
+void EpollPoller::Poll(int timeout_ms, std::vector<Channel*>& active_channels) { 
     active_channels.clear();
     int numEvents = epoll_wait(epollfd_, events_, MAX_EVENTS, timeout_ms);
     if (numEvents < 0) {
         std::cout << "epoll_wait error" << std::endl;
     }
     for (int i = 0; i < numEvents; i++) { 
-        Channel* ch = static_cast<Channel*>events_[i].data.ptr;
+        Channel* ch = static_cast<Channel*>(events_[i].data.ptr);
         ch->setrevents(events_[i].events);
         active_channels.push_back(ch);
     }
