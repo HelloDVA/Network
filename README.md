@@ -40,5 +40,5 @@
 
 ### 主体架构
 
-![https://github.com/HelloDVA/Network/blob/main/network.png]()
+![主体架构](https://github.com/HelloDVA/Network/blob/main/network.png)
 
