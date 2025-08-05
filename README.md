@@ -37,3 +37,8 @@
 4、根据不同事件处理，调用不同的tcpserver：：回调函数。
 
 6、服务器配备主动操作：发送数据，断开连接。
+
+### 主体架构
+
+![https://github.com/HelloDVA/Network/blob/main/network.png]()
+
