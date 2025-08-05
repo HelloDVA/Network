@@ -37,9 +37,7 @@ void AsyncLogger::Start() {
   running_ = true;
 
   thread_ = std::make_unique<EventLoopThread>([this](EventLoop* loop) {
-    loop->RunInLoop([this]() {
-      ThreadFunc();  
-    });
+      ThreadFunc(loop);  
   }, "LoggerThread");
 
   loop_ = thread_->StartLoop();
@@ -89,8 +87,8 @@ void AsyncLogger::AppendInLoop(const char* data, size_t len) {
   }
 }
 
-void AsyncLogger::ThreadFunc() {
-  loop_->AssertInLoopThread();  
+void AsyncLogger::ThreadFunc(EventLoop* loop) {
+  loop->AssertInLoopThread();  
   
   // prepare for write data from buffer to file 
   BufferPtr new_buffer1(new Buffer);   

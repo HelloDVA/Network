@@ -51,8 +51,7 @@ private:
     enum State { kDisconnected, kConnecting, kConnected, kDisconnecting };
     void setstate(State s) { state_ = s; }
     
-    // server passive methods 
-    // callback for channel 
+    // callback for epoll events 
     void HandleRead();
     void HandleWrite();
     void HandleClose();
@@ -70,7 +69,8 @@ private:
     std::unique_ptr<Channel> channel_;
     InetAddress local_addr_;
     InetAddress peer_addr_;
-
+    
+    // callback for service events such as GameServer, LogServer.
     ReadCallback read_callback_;
     WriteCallback write_callback_;
     CloseCallback close_callback_;

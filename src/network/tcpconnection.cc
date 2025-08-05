@@ -1,4 +1,3 @@
-
 #include <cerrno>
 #include <cstddef>
 #include <errno.h>
@@ -41,6 +40,7 @@ void TcpConnection::ConnectEstablished() {
     assert(state_ == kConnecting);
     setstate(kConnected);
     channel_->EnableReading();  // 开始监听可读事件
+    std::cout << "connection 44 connection started" << std::endl;
 }
 
 void TcpConnection::ConnectDestroyed() {
@@ -54,10 +54,15 @@ void TcpConnection::ConnectDestroyed() {
 
 void TcpConnection::HandleRead() {
     loop_->AssertInLoopThread();
+    std::cout << "message in" << std::endl;
     int savedErrno = 0;
     ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &savedErrno);
+    std::cout << n << std::endl;
     
     if (n > 0) {
+        if (read_callback_)
+            read_callback_(shared_from_this(), &input_buffer_);
+
         // 有数据可读，调用消息回调
         std::cout << "message in" << std::endl;
 

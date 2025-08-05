@@ -6,7 +6,6 @@
 class Channel {
 public:
     using EventCallback = std::function<void()>;
-    using ReadEventCallback = std::function<void()>;
 
     Channel(EventLoop* loop, int fd);
     ~Channel();
@@ -22,7 +21,7 @@ public:
     bool IsReading() const { return events_ & kReadEvent; }
     bool IsWriting() const { return events_ & kWriteEvent; }
 
-    void setreadcallback(ReadEventCallback cb) { read_callback_ = std::move(cb); }
+    void setreadcallback(EventCallback cb) { read_callback_ = std::move(cb); }
     void setwritecallback(EventCallback cb) { write_callback_ = std::move(cb); }
     void setclosecallback(EventCallback cb) { close_callback_ = std::move(cb); }
     void seterrorcallback(EventCallback cb) { error_callback_ = std::move(cb); }
@@ -43,7 +42,7 @@ private:
     int revents_;
     int state_; // 0 exist -1 not exist
 
-    ReadEventCallback read_callback_;
+    EventCallback read_callback_;
     EventCallback write_callback_;
     EventCallback close_callback_;
     EventCallback error_callback_;

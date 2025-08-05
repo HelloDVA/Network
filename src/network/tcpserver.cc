@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include <memory>
+#include <iostream>
 
 #include <unistd.h>
 
@@ -27,7 +28,6 @@ TcpServer::TcpServer(EventLoop* loop, const InetAddress& addr)
 
 TcpServer::~TcpServer() {
     loop_->AssertInLoopThread();
-
     for (auto it : connections_) {
         TcpConnection::TcpConnectionPtr conn = it.second;
         conn->getloop()->RunInLoop([conn](){
@@ -48,6 +48,7 @@ void TcpServer::Start() {
 
 void TcpServer::NewConnection(int sockfd, const InetAddress& peer_addr) {
     loop_->AssertInLoopThread();    
+    std::cout << "server 51 " << sockfd << std::endl;
 
     std::string conn_name = peer_addr.ToIp() + peer_addr.ToPort() + "->" + local_addr_.ToIp() + local_addr_.ToIp();
 
@@ -65,6 +66,7 @@ void TcpServer::NewConnection(int sockfd, const InetAddress& peer_addr) {
     loop->RunInLoop([conn]() {
             conn->ConnectEstablished();
     });
+
 }
 
 void TcpServer::CloseConnection(const TcpConnection::TcpConnectionPtr& conn) {

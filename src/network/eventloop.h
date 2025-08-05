@@ -37,17 +37,23 @@ class EventLoop
         
     private:
         void DoPendingFunctors();
+        void HnadleRead();
     
     private:
+        // get active channels from poller
         std::unique_ptr<EpollPoller> poller_;
         std::vector<Channel*> activate_channels_;
         
+        // get functor 
         std::mutex mutex_;
         std::vector<Functor> pending_functors_;
+        
+        // use for wake up loop
         int wakeup_fd_;
-        std::thread::id thread_id_;
+        std::unique_ptr<Channel> wakeup_channel_;
 
         // event loop state
+        std::thread::id thread_id_;
         bool looping_;
         bool quiting_;
 };

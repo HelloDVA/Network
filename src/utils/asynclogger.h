@@ -26,7 +26,7 @@ class AsyncLogger {
         void Flush();
     
     private:
-        void ThreadFunc();
+        void ThreadFunc(EventLoop* loop);
         void AppendInLoop(const char* data, size_t len);
         void RollFile();
     
