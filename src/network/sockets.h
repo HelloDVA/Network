@@ -12,7 +12,6 @@ namespace sockets {
     int Accept(int sockfd, InetAddress* addr);
     void Close(int sockfd);
     size_t Write(int sockfd, const void* buf, size_t count);
-    int GetError(int sockfd);
     int CreateEventFd();
     void SetNonBlocking(int sockfd);
 }

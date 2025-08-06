@@ -15,12 +15,11 @@
 
 TcpServer::TcpServer(EventLoop* loop, const InetAddress& addr) 
     : loop_(loop),
-    name_("TcpServer"),
-    started_(false),
-    local_addr_(addr),
-    acceptor_(std::make_unique<Acceptor>(loop, addr)),
-    thread_pool_(std::make_unique<EventLoopThreadPool>(loop, "IOthreadpool", 1)) {
-
+      name_("TcpServer"),
+      started_(false),
+      local_addr_(addr),
+      acceptor_(std::make_unique<Acceptor>(loop, addr)),
+      thread_pool_(std::make_unique<EventLoopThreadPool>(loop, "IOthreadpool", 5)) {
     // bind new connection callback for acceptor 
     std::function<void(int, const InetAddress&)> cb = std::bind(&TcpServer::NewConnection, this, std::placeholders::_1, std::placeholders::_2);
     acceptor_->setnewconnectionCallback(cb);    

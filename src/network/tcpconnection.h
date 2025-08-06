@@ -29,11 +29,11 @@ public:
     ~TcpConnection();
     
     // when create and close do in loop
-    void ConnectEstablished();   // 连接建立完成
-    void ConnectDestroyed();     // 连接销毁
+    void ConnectEstablished();   // 连接建立完成 after tcpserver::NewConnection run
+    void ConnectDestroyed();     // 连接销毁 after tcpserver::CloseConnection run
     
     // server initivative methods
-    void Send(const std::string& message); // 数据发送
+    void Send(const std::string& message); // send message and activate EPOLLWRITE 
     void Send(Buffer* message);
     void Shutdown();             // 关闭写端
 
@@ -55,7 +55,7 @@ private:
     void HandleRead();
     void HandleWrite();
     void HandleClose();
-    void HandleError();
+    void HandleError(int err);
     
     // do action in loop
     void SendInLoop(const std::string& message);

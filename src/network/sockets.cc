@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#include <iostream>
-
 #include "sockets.h"
 #include "inetaddress.h"
 
@@ -79,13 +77,10 @@ size_t sockets::Write(int sockfd, const void* buf, size_t count) {
     return ::write(sockfd, buf, count); 
 }
 
-int sockets::GetError(int sockfd) {
-    return 0;
-}
-
 void sockets::SetNonBlocking(int sockfd) { 
     int state = fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL)|O_NONBLOCK);
 	if(state == -1){
 		perror("Socket set nonblock error");
 	}
 }
+

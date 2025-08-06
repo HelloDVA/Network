@@ -26,7 +26,6 @@ TcpConnection::TcpConnection(EventLoop* loop,
     channel_->setreadcallback([this]() { this->HandleRead(); });
     channel_->setwritecallback([this]() { this->HandleWrite(); });
     channel_->setclosecallback([this]() { this->HandleClose(); });
-    channel_->seterrorcallback([this]() { this->HandleError(); });
 }
 
 TcpConnection::~TcpConnection() {
@@ -52,8 +51,9 @@ void TcpConnection::ConnectDestroyed() {
 
 void TcpConnection::HandleRead() {
     loop_->AssertInLoopThread();
-    int savedErrno = 0;
-    ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &savedErrno);
+
+    int saved_errno;
+    ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &saved_errno);
     if (n > 0) {
         if (read_callback_)
             read_callback_(shared_from_this(), &input_buffer_);
@@ -65,17 +65,18 @@ void TcpConnection::HandleRead() {
         // 客户端关闭连接
         HandleClose();
     } else {
-        // 读取错误
-        errno = savedErrno;
+        if (saved_errno == EAGAIN)
+            return;
         std::cerr << "TcpConnection::HandleRead error" << std::endl;
-        HandleError();
+        HandleError(saved_errno);
     }
 }
 
 void TcpConnection::HandleWrite() {
     loop_->AssertInLoopThread();
-    // test whether the channel can do write
+
     if (channel_->IsWriting()) {
+        // write first. if write failed, choose to buffer and waiting EPOLLWRITE.
         ssize_t n = sockets::Write(channel_->getfd(), 
                                   output_buffer_.Peek(), 
                                   output_buffer_.ReadableBytes());
@@ -83,9 +84,8 @@ void TcpConnection::HandleWrite() {
             output_buffer_.Retrieve(n);
             if (output_buffer_.ReadableBytes() == 0) {
                 channel_->DisableWriting();
-                if (state_ == kDisconnecting) {
+                if (state_ == kDisconnecting) 
                     ShutdownInLoop();
-                }
             }
         } else {
             std::cerr << "TcpConnection::HandleWrite error" << std::endl;
@@ -95,12 +95,11 @@ void TcpConnection::HandleWrite() {
 
 void TcpConnection::HandleClose() {
     loop_->AssertInLoopThread();
+
     std::cout << "TcpConnection::HandleClose state = " << state_ << std::endl;
     assert(state_ == kConnected || state_ == kDisconnecting);
-
     setstate(kDisconnected);
     channel_->DisableAll();
-    
     // protect the connection close safely
     TcpConnectionPtr guardThis(shared_from_this());
     if (close_callback_) {
@@ -108,8 +107,7 @@ void TcpConnection::HandleClose() {
     }
 }
 
-void TcpConnection::HandleError() {
-    int err = sockets::GetError(channel_->getfd());
+void TcpConnection::HandleError(int err) {
     std::cerr << "TcpConnection::HandleError [" << name_ 
               << "] - SO_ERROR = " << err << std::endl;
 }

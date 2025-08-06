@@ -23,8 +23,6 @@ Channel::~Channel() {}
 
 void Channel::HandleEvent() { 
     // priority from high to low
-    if (revents_ & kErrorEvent && error_callback_) 
-        error_callback_();
     if (revents_ & kCloseEvent && close_callback_) 
         close_callback_();
     if (revents_ & kReadEvent && read_callback_) 

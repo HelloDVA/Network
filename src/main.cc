@@ -16,9 +16,17 @@ void Test(const TcpConnectionPtr& conn, Buffer* buffer) {
     // Process the received data
     std::string message(buffer->Peek(), buffer->ReadableBytes());
     std::cout << "Received message: " << message << std::endl;
+    
+     std::string response =
+        "HTTP/1.1 200 OK\r\n"
+        "Content-Type: text/plain\r\n"
+        "Content-Length: 15\r\n"
+        "Connection: close\r\n"
+        "\r\n"
+        "Hello, WebBench!";
 
     // Echo back to client
-    conn->Send(message);
+    conn->Send(response);
 
     // Clear the buffer
     buffer->RetrieveAll();
@@ -38,6 +46,7 @@ int main()
     
     EventLoop loop;
     TcpServer server(&loop, addr);
+    server.setmessagecallback(Test);
     server.Start();
     std::cout << "main 33 server start\n";
 
