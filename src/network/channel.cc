@@ -32,7 +32,6 @@ void Channel::HandleEvent() {
 }
 
 void Channel::Update() {
-  std::cout << "Channel::Update() called for fd=" << fd_ << std::endl;
   loop_->UpdateChannel(this);
 }
 

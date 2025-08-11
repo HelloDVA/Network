@@ -35,7 +35,7 @@ void Acceptor::Listen() {
 void Acceptor::HandleRead() {
     InetAddress* peer_addr = new InetAddress();
     int connfd = sockets::Accept(accept_socket_fd_, peer_addr);
-    sockets::SetNonBlocking(accept_socket_fd_);
+    sockets::SetNonBlocking(connfd);
     if (newconnectioncallback_) {
         newconnectioncallback_(connfd, *peer_addr);
     }

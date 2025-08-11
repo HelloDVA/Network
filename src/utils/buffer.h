@@ -17,15 +17,10 @@ public:
     }
     ~Buffer() {}
 
-    // 从文件描述符读取数据到缓冲区
-<<<<<<< HEAD
-    size_t ReadFd(int fd, int* savedErrno);
     
     // 缓冲区基本操作
-=======
     size_t ReadFd(int fd, int* saved_errno);
    
->>>>>>> origin/main
     void Append(const char* data, size_t len);
     void MakeSpace(size_t len);
     void EnsureWritableBytes(size_t len);

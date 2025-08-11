@@ -16,17 +16,16 @@ void Test(const TcpConnectionPtr& conn, Buffer* buffer) {
     // Process the received data
     std::string message(buffer->Peek(), buffer->ReadableBytes());
     std::cout << "Received message: " << message << std::endl;
-    
-     std::string response =
+    std::string http_response =
         "HTTP/1.1 200 OK\r\n"
+        "Content-Length: 12\r\n"
+        "Connection: Keep-Alive\r\n"
         "Content-Type: text/plain\r\n"
-        "Content-Length: 15\r\n"
-        "Connection: close\r\n"
         "\r\n"
-        "Hello, WebBench!";
+        "Hello World!";
 
     // Echo back to client
-    conn->Send(response);
+    conn->Send(http_response);
 
     // Clear the buffer
     buffer->RetrieveAll();

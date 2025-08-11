@@ -21,11 +21,5 @@ class EpollPoller : public Poller {
     private:
         static const int MAX_EVENTS = 1024;
         int epollfd_;
-<<<<<<< HEAD
-        std::vector<epoll_event> events_;   // keep the active events
-};
-=======
         struct epoll_event* events_;   // keep the active events
-
 };
->>>>>>> origin/main

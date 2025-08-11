@@ -1,5 +1,14 @@
 # Network
 
+### wrk test
+Running 10s test @ http://127.0.0.1:8081
+12 threads and 400 connections
+Thread Stats   Avg      Stdev     Max   +/- Stdev
+   Latency   199.95ms   51.08ms 631.64ms   73.01%
+   Req/Sec   163.92     61.62   580.00     67.56%
+19595 requests in 10.06s, 1.89MB read
+Requests/sec:   1948.68
+
 ### Webbench测试
 
 ![1000test](https://github.com/HelloDVA/Network/blob/main/1000test.png)

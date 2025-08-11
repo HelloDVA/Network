@@ -12,9 +12,7 @@ public:
     ~Channel();
 
     void HandleEvent();
-    void EnableReading() { 
-        std::cout << "Channel::EnableReading() called for fd=" << fd_ << std::endl;
-        events_ |= kReadEvent; Update(); }
+    void EnableReading() { events_ |= kReadEvent; Update(); }
     void DisableReading() { events_ &= ~kReadEvent; Update(); }
     void EnableWriting() { events_ |= kWriteEvent; Update(); }
     void DisableWriting() { events_ &= ~kWriteEvent; Update(); }

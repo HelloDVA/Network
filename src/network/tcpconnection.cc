@@ -53,22 +53,23 @@ void TcpConnection::HandleRead() {
     loop_->AssertInLoopThread();
 
     int saved_errno;
-    ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &saved_errno);
-    if (n > 0) {
-        if (read_callback_)
-            read_callback_(shared_from_this(), &input_buffer_);
-
-        // 有数据可读，调用消息回调
-        std::cout << "message in" << std::endl;
-
-    } else if (n == 0) {
-        // 客户端关闭连接
-        HandleClose();
-    } else {
-        if (saved_errno == EAGAIN)
-            return;
-        std::cerr << "TcpConnection::HandleRead error" << std::endl;
-        HandleError(saved_errno);
+    while (true) {
+        ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &saved_errno);
+        if (n > 0) {
+            if (read_callback_)
+                read_callback_(shared_from_this(), &input_buffer_);
+            std::cout << "message in" << std::endl;
+            break;
+        } else if (n == 0) {
+            // 客户端关闭连接
+            HandleClose();
+            break;
+        } else if (saved_errno == EAGAIN || saved_errno == EWOULDBLOCK) {
+            break;
+        } else {
+            std::cerr << "TcpConnection::HandleRead error" << std::endl;
+            HandleError(saved_errno);
+        }
     }
 }
 
@@ -133,8 +134,9 @@ void TcpConnection::SendInLoop(const std::string& message) {
         nwrote = ::write(channel_->getfd(), message.data(), message.size());
         if (nwrote > 0)
             remaining -= nwrote;
-        else if (errno != EWOULDBLOCK) {
-            return;
+        else if (errno == EAGAIN || errno == EWOULDBLOCK) {
+        } else {
+            HandleClose();
         }
    }
     

@@ -11,15 +11,15 @@
 
 EventLoop::EventLoop() 
     : poller_(std::make_unique<EpollPoller>()), 
-    wakeup_fd_(sockets::CreateEventFd()),
-    thread_id_(std::this_thread::get_id()),
-    looping_(false),
-    quiting_(false) {
-        wakeup_channel_ = std::make_unique<Channel>(this, wakeup_fd_);
-        wakeup_channel_->setreadcallback([this]() {
-                HnadleRead();
-        });
-        wakeup_channel_->EnableReading();
+      wakeup_fd_(sockets::CreateEventFd()),
+      thread_id_(std::this_thread::get_id()),
+      looping_(false),
+      quiting_(false) {
+    wakeup_channel_ = std::make_unique<Channel>(this, wakeup_fd_);
+    wakeup_channel_->setreadcallback([this]() {
+        HnadleRead();
+    });
+    wakeup_channel_->EnableReading();
 }
 
 EventLoop::~EventLoop(){
@@ -50,7 +50,6 @@ void EventLoop::Loop() {
 }
 
 void EventLoop::UpdateChannel(Channel* channel) {
-    std::cout << "EventLoop::UpdateChannel() called" << std::endl;
     AssertInLoopThread();
     poller_->UpdateChannel(channel);
 }
