@@ -1,17 +1,16 @@
 #include "../utils/asynclogger.h"
 
+#include <unistd.h>
+
+#include <cassert>
+#include <memory>
+
 #include "tcpserver.h"
 #include "acceptor.h"
 #include "eventloop.h"
 #include "eventloopthreadpool.h"
 #include "inetaddress.h"
 #include "tcpconnection.h"
-
-#include <cassert>
-#include <memory>
-
-#include <unistd.h>
-
 
 TcpServer::TcpServer(EventLoop* loop, const InetAddress& addr) 
     : loop_(loop),
@@ -50,14 +49,17 @@ void TcpServer::NewConnection(int sockfd, const InetAddress& peer_addr) {
     loop_->AssertInLoopThread();    
     std::string conn_name = peer_addr.ToIp() + peer_addr.ToPort() + "->" + local_addr_.ToIp() + local_addr_.ToIp();
     
-    // get loop from pool and create new connection
+    // choose loop for new connection
     EventLoop* loop = thread_pool_->GetNextLoop();
     TcpConnection::TcpConnectionPtr conn = std::make_shared<TcpConnection>(loop, conn_name, sockfd, local_addr_, peer_addr);
+    connections_[conn_name] = conn;
+    
+    // connection callback function set.
+    // start connection;
     conn->setclosecallback([this](const TcpConnection::TcpConnectionPtr &conn) {
             CloseConnection(conn);
     });
     conn->setreadcallback(message_callback_);
-    connections_[conn_name] = conn;
     loop->RunInLoop([conn]() {
             conn->ConnectEstablished();
     });

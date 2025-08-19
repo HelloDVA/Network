@@ -20,6 +20,7 @@ public:
     using MessageCallback = std::function<void(const TcpConnectionPtr&, Buffer*)>;
     using ThreadInitCallback = std::function<void(EventLoop*)>;
 
+public:
     TcpServer(EventLoop* loop, const InetAddress& addr);
     ~TcpServer();
 
@@ -43,8 +44,9 @@ private:
     std::unique_ptr<Acceptor> acceptor_;
     std::unordered_map<std::string, TcpConnection::TcpConnectionPtr> connections_;
     std::unique_ptr<EventLoopThreadPool> thread_pool_;
-
-    // connection callback for business process
+    
+    // server callback function for server service
+    // pass to connection and use
     ConnectionCallback connection_callback_;
     MessageCallback message_callback_;
     ThreadInitCallback thread_init_callback_;

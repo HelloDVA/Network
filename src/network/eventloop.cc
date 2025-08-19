@@ -1,6 +1,5 @@
 #include <memory>
 #include <stdexcept>
-#include <iostream>
 
 #include <unistd.h>
 

@@ -6,6 +6,7 @@
 #include "./network/tcpconnection.h"
 #include "./utils/buffer.h"
 #include "./utils/asynclogger.h"
+#include "./server/gomokuserver.h"
 
 #include <string>
 #include <memory>
@@ -44,10 +45,12 @@ int main()
     //logger->Append("Server addr ok", sizeof("Server addr ok"));
     
     EventLoop loop;
-    TcpServer server(&loop, addr);
-    server.setmessagecallback(Test);
-    server.Start();
-    std::cout << "main 33 server start\n";
+    GomokuServer gomoku (&loop, addr);
+    gomoku.Start();
+    /* TcpServer server(&loop, addr); */
+    /* server.setmessagecallback(Test); */
+    /* server.Start(); */
+    /* std::cout << "main 33 server start\n"; */
 
     loop.Loop();
     return 0;

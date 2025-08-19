@@ -13,14 +13,15 @@
 
 
 class TcpConnection : public std::enable_shared_from_this<TcpConnection> {
+
 public:
     using TcpConnectionPtr = std::shared_ptr<TcpConnection>;
-
     using ReadCallback = std::function<void(const TcpConnectionPtr&, Buffer*)>;
     using WriteCallback = std::function<void(const TcpConnectionPtr&, Buffer*)>;
     using CloseCallback = std::function<void(const TcpConnectionPtr&)>;
     using ErrorCallback = std::function<void(const TcpConnectionPtr&)>;
 
+public:
     TcpConnection(EventLoop* loop,
                   const std::string& name,
                   int sockfd,
@@ -35,12 +36,15 @@ public:
     // server initivative methods
     void Send(const std::string& message); // send message and activate EPOLLWRITE 
     void Send(Buffer* message);
-    void Shutdown();             // 关闭写端
+    void Shutdown();             // server close client 
+    void UpgradeWebscoket();
+    void DownWebsocket();
 
     EventLoop* getloop() const { return loop_; }
     const std::string& getname() const { return name_; }
     const InetAddress& getlocaladdr() const { return local_addr_; }
     const InetAddress& getpeeraddr() const { return peer_addr_; }
+    const int getsockfd() const { return channel_->getfd(); }
     bool state() const { return state_ == kConnected; }
     void setreadcallback(ReadCallback cb) { read_callback_ = std::move(cb); }
     void setwritecallback(WriteCallback cb) { write_callback_ = std::move(cb); }
@@ -51,15 +55,22 @@ private:
     enum State { kDisconnected, kConnecting, kConnected, kDisconnecting };
     void setstate(State s) { state_ = s; }
     
-    // callback for epoll events 
+    // the function runInLoop.
+    void SendInLoop(const std::string& message);
+    void ShutdownInLoop();
+    
+    // conection callback for epoll events 
     void HandleRead();
     void HandleWrite();
     void HandleClose();
     void HandleError(int err);
-    
-    // do action in loop
-    void SendInLoop(const std::string& message);
-    void ShutdownInLoop();
+
+    // server callback for connection such as GameServer, LogServer.
+    // get from server and use in HandleMethod()
+    ReadCallback read_callback_;
+    WriteCallback write_callback_;
+    CloseCallback close_callback_;
+    ErrorCallback error_callback_;
 
 private:
     EventLoop* loop_;
@@ -70,12 +81,6 @@ private:
     InetAddress local_addr_;
     InetAddress peer_addr_;
     
-    // callback for service events such as GameServer, LogServer.
-    ReadCallback read_callback_;
-    WriteCallback write_callback_;
-    CloseCallback close_callback_;
-    ErrorCallback error_callback_;
-
     Buffer input_buffer_;        // 接收缓冲区
     Buffer output_buffer_;       // 发送缓冲区
 };

@@ -1,4 +1,4 @@
-#include <cerrno>
+
 #include <cstddef>
 #include <errno.h>
 #include <sys/socket.h>
@@ -10,6 +10,8 @@
 
 #include "tcpconnection.h"
 #include "sockets.h"
+
+//std::cout << "tcpconnection 58: " << n <<std::endl;
 
 TcpConnection::TcpConnection(EventLoop* loop,
                              const std::string& name,
@@ -51,26 +53,43 @@ void TcpConnection::ConnectDestroyed() {
 
 void TcpConnection::HandleRead() {
     loop_->AssertInLoopThread();
-
+    
+    // use buffer to make sure the http request is completed.
     int saved_errno;
-    while (true) {
-        ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &saved_errno);
-        if (n > 0) {
-            if (read_callback_)
-                read_callback_(shared_from_this(), &input_buffer_);
-            std::cout << "message in" << std::endl;
-            break;
-        } else if (n == 0) {
-            // 客户端关闭连接
-            HandleClose();
-            break;
-        } else if (saved_errno == EAGAIN || saved_errno == EWOULDBLOCK) {
-            break;
-        } else {
-            std::cerr << "TcpConnection::HandleRead error" << std::endl;
-            HandleError(saved_errno);
+    ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &saved_errno);
+    std::cout << "tcpconnection 58 read bytes:  " << n <<std::endl;
+    if (n > 0) {
+        if (read_callback_) {
+            read_callback_(shared_from_this(), &input_buffer_);
+            input_buffer_.RetrieveAll();
         }
+    } else if (n == 0) {
+        // 客户端关闭连接
+        HandleClose();
+    } else if (saved_errno == EAGAIN || saved_errno == EWOULDBLOCK) {
+    } else {
+        std::cerr << "TcpConnection::HandleRead error" << std::endl;
+        HandleError(saved_errno);
     }
+
+    /* while (true) { */
+    /*     ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &saved_errno); */
+    /*     if (n > 0) { */
+    /*         // test whether the http message is ok */
+    /*         if (read_callback_) */
+    /*             read_callback_(shared_from_this(), &input_buffer_); */
+    /*     } else if (n == 0) { */
+    /*         // 客户端关闭连接 */
+    /*         HandleClose(); */
+    /*         break; */
+    /*     } else if (saved_errno == EAGAIN || saved_errno == EWOULDBLOCK) { */
+    /*         break; */
+    /*     } else { */
+    /*         std::cerr << "TcpConnection::HandleRead error" << std::endl; */
+    /*         HandleError(saved_errno); */
+    /*         break; */
+    /*     } */
+    /* } */
 }
 
 void TcpConnection::HandleWrite() {
@@ -162,4 +181,12 @@ void TcpConnection::ShutdownInLoop() {
     if (!channel_->IsWriting()) {
        ::shutdown(channel_->getfd(), SHUT_WR); 
     }
+}
+
+void TcpConnection::UpgradeWebscoket() {
+    channel_->RemoveChannel();
+}
+
+void TcpConnection::DownWebsocket() {
+    channel_->EnableReading();    
 }
