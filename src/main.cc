@@ -51,7 +51,6 @@ int main()
     /* server.setmessagecallback(Test); */
     /* server.Start(); */
     /* std::cout << "main 33 server start\n"; */
-
     loop.Loop();
     return 0;
 }

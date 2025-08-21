@@ -36,9 +36,9 @@ public:
     // server initivative methods
     void Send(const std::string& message); // send message and activate EPOLLWRITE 
     void Send(Buffer* message);
-    void Shutdown();             // server close client 
-    void UpgradeWebscoket();
-    void DownWebsocket();
+    void Shutdown();             // server close write to client
+    
+    void UpgradeWebSocket();
 
     EventLoop* getloop() const { return loop_; }
     const std::string& getname() const { return name_; }

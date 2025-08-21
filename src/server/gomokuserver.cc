@@ -10,6 +10,7 @@
 #include "httprequest.h"
 #include "httpresponse.h"
 #include "websocket.h"
+#include "httpparser.h"
 
 GomokuServer::GomokuServer(EventLoop* loop, const InetAddress& addr)
     : server_(std::make_unique<TcpServer>(loop, addr)) {
@@ -23,38 +24,51 @@ GomokuServer::~GomokuServer() {
 
 void GomokuServer::OnMessage(const TcpConnectionPtr& conn, Buffer* buffer) {
     HttpRequest request;
-    HttpResponse response;
+    HttpParser parser;
     HttpProcess process;
+    HttpResponse response;
     std::string message(buffer->Peek(), buffer->ReadableBytes());
-
-    request.Parse(message);
-
     std::cout << "gomokuserver.cc 32 message: " << message << std::endl;
 
-    if (request.getpath() == "/websocket") {
-        std::cout << "gomokuserver.cc 33 websocket connected\n";
-        
-        // move connection fd epollevents from epoll 
-        conn->UpgradeWebscoket();
+    if (parser.Parse(*buffer, request)) {
+        if (request.getpath() == "/websocket") {
+            std::cout << "gomokuserver.cc 33 websocket connected\n";
+            
+            // move sockfd to websocket from epoll and close connection
+            std::string message(buffer->Peek(), buffer->ReadableBytes());
+            int sockfd = conn->getsockfd();
+            conn->UpgradeWebSocket(); 
 
-        // use WebSocket
-        int sockfd = conn->getsockfd();
-        auto io_context = std::make_shared<net::io_context>();
-        //net::io_context io_context;
-        tcp::socket socket(*io_context);
-        socket.assign(tcp::v4(), sockfd);
-        std::shared_ptr<WebSocketSession> websocket = std::make_shared<WebSocketSession>(std::move(socket));    
-        websocket->Start(message); 
-        std::thread([io_context]() {
-            io_context->run();
-        }).detach();
-        
-    } else {
-        // Http
-        response = process.Process(request);
-        conn->Send(response.ToString());
+            auto io_context = std::make_shared<net::io_context>();
+            //net::io_context io_context;
+            tcp::socket socket(*io_context);
+            socket.assign(tcp::v4(), sockfd);
+            std::shared_ptr<WebSocketSession> websocket = std::make_shared<WebSocketSession>(std::move(socket));    
+            websocket->Start(message); 
+            std::thread([io_context]() {
+                io_context->run();
+            }).detach();
+        } else {
+            response = process.Process(request);
+            conn->Send(response.ToString());
+        }
+        std::cout << "gomokuserver.cc 55 buffer clean" << std::endl;;
         buffer->RetrieveAll();
     }
+}
+
+void GomokuServer::OnWebSocketMessage(const TcpConnectionPtr& conn, Buffer* buffer) {
+    std::string message(buffer->Peek(), buffer->ReadableBytes());
+    int sockfd = conn->getsockfd();
+    auto io_context = std::make_shared<net::io_context>();
+    //net::io_context io_context;
+    tcp::socket socket(*io_context);
+    socket.assign(tcp::v4(), sockfd);
+    std::shared_ptr<WebSocketSession> websocket = std::make_shared<WebSocketSession>(std::move(socket));    
+    websocket->Start(message); 
+    std::thread([io_context]() {
+        io_context->run();
+    }).detach();
 }
 
 void GomokuServer::OnConnection(const TcpConnectionPtr&) {

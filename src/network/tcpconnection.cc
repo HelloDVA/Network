@@ -1,4 +1,5 @@
 
+#include <cerrno>
 #include <cstddef>
 #include <errno.h>
 #include <sys/socket.h>
@@ -31,8 +32,10 @@ TcpConnection::TcpConnection(EventLoop* loop,
 }
 
 TcpConnection::~TcpConnection() {
+    int sockfd = channel_->getfd();
     std::cout << "TcpConnection::~TcpConnection [" << name_ << "] at fd=" 
-              << channel_->getfd() << std::endl;
+              << sockfd << std::endl;
+    sockets::Close(sockfd);
 }
 
 void TcpConnection::ConnectEstablished() {
@@ -46,7 +49,6 @@ void TcpConnection::ConnectDestroyed() {
     loop_->AssertInLoopThread();
     if (state_ == kConnected) {
         setstate(kDisconnected);
-        channel_->DisableAll();
     }
     channel_->RemoveChannel();
 }
@@ -61,7 +63,6 @@ void TcpConnection::HandleRead() {
     if (n > 0) {
         if (read_callback_) {
             read_callback_(shared_from_this(), &input_buffer_);
-            input_buffer_.RetrieveAll();
         }
     } else if (n == 0) {
         // 客户端关闭连接
@@ -115,11 +116,10 @@ void TcpConnection::HandleWrite() {
 
 void TcpConnection::HandleClose() {
     loop_->AssertInLoopThread();
-
     std::cout << "TcpConnection::HandleClose state = " << state_ << std::endl;
     assert(state_ == kConnected || state_ == kDisconnecting);
-    setstate(kDisconnected);
     channel_->DisableAll();
+    setstate(kDisconnected);
     // protect the connection close safely
     TcpConnectionPtr guardThis(shared_from_this());
     if (close_callback_) {
@@ -146,17 +146,34 @@ void TcpConnection::Send(const std::string& message) {
 void TcpConnection::SendInLoop(const std::string& message) {
    ssize_t nwrote = 0;
    size_t remaining = message.size();
+
+   bool fault_error = false;
     
-   // buffer is full and the channel is not write
-   // use write to send message
+   // if the writhe buffer is null
+   // use ::write send message to avoid copy
    if (!channel_->IsWriting() && output_buffer_.ReadableBytes() == 0) {
         nwrote = ::write(channel_->getfd(), message.data(), message.size());
         if (nwrote > 0)
             remaining -= nwrote;
-        else if (errno == EAGAIN || errno == EWOULDBLOCK) {
-        } else {
-            HandleClose();
+        else {
+            if (errno != EAGAIN || errno != EWOULDBLOCK) {
+                // trouble error process
+                if (errno == EPIPE || errno == ECONNRESET) {
+                    fault_error = true;
+                } else if (errno == EINTR) {
+                    std::cout << "write interrupted" << std::endl; 
+                } else {
+                    std::cout << "write error" << std::endl; 
+                    fault_error = true;
+                }
+            }
         }
+   }
+
+   if (fault_error) {
+        std::cout << "write big error errno: " <<  errno << std::endl; 
+        HandleClose();
+        return;
    }
     
    // append data to buffer
@@ -183,10 +200,7 @@ void TcpConnection::ShutdownInLoop() {
     }
 }
 
-void TcpConnection::UpgradeWebscoket() {
-    channel_->RemoveChannel();
+void TcpConnection::UpgradeWebSocket() {
+    channel_->DisableAll();
 }
 
-void TcpConnection::DownWebsocket() {
-    channel_->EnableReading();    
-}

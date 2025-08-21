@@ -22,7 +22,7 @@ public:
 
     void Start(std::string request_data);  // 启动握手 + 读
     void DoWrite(const std::string& msg); // 向客户端发送数据
-    std::string DoRead();
+    void DoRead();
     void Close();
 
 private:

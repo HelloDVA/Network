@@ -8,7 +8,7 @@ project(Documents/Network)
 # -DCMAKE_BUILD_TYPE=Debug
 
 # set the c++ version
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 # set the file.exe position
 set(EXECUTABLE_OUTPUT_PATH ../../bin)

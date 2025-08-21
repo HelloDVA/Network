@@ -8,5 +8,7 @@ class Game {
         void Reset();
 
     private:
-        int board[15][15];
+		static const int directions_[4][2];
+
+        int board_[15][15];
 };

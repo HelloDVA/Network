@@ -27,6 +27,7 @@ public:
     void setclosecallback(EventCallback cb) { close_callback_ = std::move(cb); }
     void setrevents(int events) { revents_ = events; }
     void setstate(int state) { state_ = state; }
+
     int getstate() const { return state_; }
     int getfd() const { return fd_; }
     int getevents() const { return events_; }

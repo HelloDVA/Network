@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include <cassert>
+#include <iostream>
 #include <memory>
 
 #include "tcpserver.h"
@@ -63,6 +64,8 @@ void TcpServer::NewConnection(int sockfd, const InetAddress& peer_addr) {
     loop->RunInLoop([conn]() {
             conn->ConnectEstablished();
     });
+
+    std::cout << "tcp server 67 new connection\n" << std::endl;
 }
 
 void TcpServer::CloseConnection(const TcpConnection::TcpConnectionPtr& conn) {
@@ -73,6 +76,7 @@ void TcpServer::CloseConnection(const TcpConnection::TcpConnectionPtr& conn) {
 
 void TcpServer::CloseConnectionInLoop(const TcpConnection::TcpConnectionPtr& conn) {
    loop_->AssertInLoopThread(); 
+   std::cout << "tcp server 79 close connection\n" << std::endl;
    std::string name = conn->getname();
    ssize_t n = connections_.erase(name);
    (void)n;

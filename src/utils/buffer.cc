@@ -10,7 +10,6 @@
 
 #include "buffer.h"
 
-// read data from fd
 size_t Buffer::ReadFd(int fd, int* saved_errno) {
     // use two data area and use readv
     char extrabuff[65536];
@@ -34,6 +33,14 @@ size_t Buffer::ReadFd(int fd, int* saved_errno) {
         Append(extrabuff, n - writer_index_);
     }
     return n;
+}
+
+const char* Buffer::FindCRLF() {
+    const char* start = Peek(); 
+    const char* end = BeginWrite();
+    const char CRLF[] = "\r\n";
+    const char* crlf = std::search(start, end, CRLF, CRLF + 2);
+    return (crlf != end) ? crlf : nullptr;
 }
 
 void Buffer::Append(const char* data, size_t len) {
@@ -62,7 +69,7 @@ void Buffer::EnsureWritableBytes(size_t len) {
 }
 
 size_t Buffer::PrependableBytes() const {
-    return writer_index_;
+    return reader_index_ - kCheapPrepend;
 }
 
 size_t Buffer::ReadableBytes() const {

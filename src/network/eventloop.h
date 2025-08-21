@@ -17,29 +17,31 @@ class EventLoop
         EventLoop();
         ~EventLoop();
         
-        // process network io and other things
+        // process network io things and other things
         void Loop();
+        void Quit();
+
         // if the task is mine call cb
         // else add cb to pending_functors_ waiting its master
         void RunInLoop(Functor cb);
         void QueueInLoop(Functor cb);
 
-        void UpdateChannel(Channel* channel);
-        void RemoveChannel(Channel* channel);
-
-        void Quit();
-        void Wakeup();  
         // test the current thread whether is the loop thread
         bool IsInLoopThread() const;
         // make sure the action is running in the loop thread
         void AssertInLoopThread();
 
+        void UpdateChannel(Channel* channel);
+        void RemoveChannel(Channel* channel);
+
+        void Wakeup();  
         
     private:
         void DoPendingFunctors();
+
+        // handle wake up 
         void HnadleRead();
     
-    private:
         // get active channels from poller
         std::unique_ptr<EpollPoller> poller_;
         std::vector<Channel*> activate_channels_;

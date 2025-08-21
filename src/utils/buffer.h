@@ -17,18 +17,21 @@ public:
     }
     ~Buffer() {}
 
-    
-    // 缓冲区基本操作
+    // read data from fd and save the error
     size_t ReadFd(int fd, int* saved_errno);
-   
+    // find the crf in write data
+    const char* FindCRLF();
+    
+    // buffer append operations
     void Append(const char* data, size_t len);
-    void MakeSpace(size_t len);
     void EnsureWritableBytes(size_t len);
-
+    void MakeSpace(size_t len);
+    
+    // clean space
     void Retrieve(size_t len);
     void RetrieveAll();
     
-    // about size
+    // operations about size
     size_t PrependableBytes() const;
     size_t ReadableBytes() const;
     size_t WriteableBytes() const;

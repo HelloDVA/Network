@@ -19,6 +19,7 @@ class GomokuServer {
         void Start();    
 
         void OnMessage(const TcpConnectionPtr& conn, Buffer* buffer);
+        void OnWebSocketMessage(const TcpConnectionPtr& conn, Buffer* buffer);
         void OnConnection(const TcpConnectionPtr&);
         void OnClose();
 
