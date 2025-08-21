@@ -11,29 +11,28 @@ const std::string RESOURCE_DIR = "../resources";
 HttpResponse HttpProcess::Process(const HttpRequest& request) {
     std::string method = request.getmethod();
     std::string path = request.getpath(); 
-    if (path == "/websocket") {
-        
-    }
+
     // get http information and choose action.
-    else if (method == "GET") {
+    if (method == "GET") {
         return HandleGet(request);
     }
 
     if (path == "/login" && method == "POST") {
         return HandleLogin(request);
     }
+
     return HandleNone(request);
 }
 
  HttpResponse HttpProcess::HandleGet(const HttpRequest& request) {
     std::string path = request.getpath();
     path = RESOURCE_DIR + path + ".html";
-
+    
+    // build response
     HttpResponse response;
     response.setversion(request.getversion());
-    response.setheader("Connection", request.getheader("Connection"));
+    response.setheader("Connection", "keep-alive");
     response.setheader("Content-Type", response.GetMimeType(path));
-
 
    	std::ifstream file(path);
    	if (file.is_open()) {
@@ -52,7 +51,7 @@ HttpResponse HttpProcess::Process(const HttpRequest& request) {
 HttpResponse HttpProcess::HandleLogin(const HttpRequest& request) {
     HttpResponse response;
     response.setversion(request.getversion());
-    response.setheader("Connection", request.getheader("Connection"));
+    response.setheader("Connection", "keep-alive");
 
     ParseUser(request.getbody());
 	// ConnectionPool init in server
@@ -103,8 +102,7 @@ void HttpProcess::ParseUser(const std::string& body) {
 HttpResponse HttpProcess::HandleNone(const HttpRequest& request) {
     HttpResponse response;
     response.setversion(request.getversion());
-    response.setheader("Connection", request.getheader("Connection"));
-
+    response.setheader("Connection", "keep-alive");
     response.setstatus(404);
     return response;
 }

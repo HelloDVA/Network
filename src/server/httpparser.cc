@@ -23,8 +23,6 @@ bool HttpParser::Parse(Buffer& input_buffer, HttpRequest& request) {
 				state_ = kParseError;
 				return false;
 			}
-
-			std::cout << "line ok\n";
 			input_buffer.Retrieve(crlf + 2 - read_start); // 消耗掉已解析的数据
 			state_ = kParseHeaders;
 		} else if (state_ == kParseHeaders) {
@@ -58,7 +56,6 @@ bool HttpParser::Parse(Buffer& input_buffer, HttpRequest& request) {
 		
 		// check the state
 		if (state_ == kParseDone) {
-			std::cout << "parse ok\n";
 			state_ = kParseRequestLine; // 重置状态机，为解析下一个请求做准备
 			return true;
 		}

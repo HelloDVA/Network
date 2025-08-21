@@ -50,6 +50,7 @@ void GomokuServer::OnMessage(const TcpConnectionPtr& conn, Buffer* buffer) {
             }).detach();
         } else {
             response = process.Process(request);
+            std::cout << response.ToString() << std::endl;;
             conn->Send(response.ToString());
         }
         std::cout << "gomokuserver.cc 55 buffer clean" << std::endl;;
