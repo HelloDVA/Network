@@ -6,10 +6,9 @@
 #include <unistd.h>
 #include <assert.h>
 
-#include <iostream>
-
 #include "tcpconnection.h"
 #include "sockets.h"
+#include "globallogger.h"
 
 TcpConnection::TcpConnection(EventLoop* loop,
                              const std::string& name,
@@ -30,14 +29,13 @@ TcpConnection::TcpConnection(EventLoop* loop,
 
 TcpConnection::~TcpConnection() {
     int sockfd = channel_->getfd();
-    std::cout << "TcpConnection::~TcpConnection [" << name_ << "] at fd=" 
-              << sockfd << std::endl;
     sockets::Close(sockfd);
 }
 
 void TcpConnection::ConnectEstablished() {
     loop_->AssertInLoopThread();
     assert(state_ == kConnecting);
+
     setstate(kConnected);
     channel_->EnableReading();  
     channel_->EnableET();
@@ -48,6 +46,8 @@ void TcpConnection::ConnectDestroyed() {
     if (state_ == kConnected) {
         setstate(kDisconnected);
     }
+    
+    // All is done, close in loop.
     channel_->RemoveChannel();
 }
 
@@ -58,24 +58,25 @@ void TcpConnection::HandleRead() {
     int saved_errno;
 
     while (true) {
-        std::cout << "+++++++++++++++++++++++++++++++++" << std::endl;
         ssize_t n = input_buffer_.ReadFd(channel_->getfd(), &saved_errno);
-        std::cout << "read bytes " << n << std::endl;
         if (n > 0) {
-            std::cout << "read_callback_ message " << std::endl;
             if (read_callback_) {
                 read_callback_(shared_from_this(), &input_buffer_);
             }
         } else if (n == 0) {
-            std::cout << "close handle" << std::endl;
             HandleClose();
             break;
-        } else if (saved_errno == EAGAIN || saved_errno == EWOULDBLOCK) {
-            break;
         } else {
-            std::cerr << "TcpConnection::HandleRead error" << std::endl;
-            HandleError(saved_errno);
-            break;
+            if (saved_errno == EAGAIN || saved_errno == EWOULDBLOCK) { 
+                break;
+            } else if (saved_errno == EINTR) {
+                // Single stop.
+                continue;
+            } else {
+                LOG_ERROR("TcpConnection::HandleRead error");
+                HandleError(saved_errno);
+                break;
+            }
         }
     }
 
@@ -114,7 +115,7 @@ void TcpConnection::HandleWrite() {
                     ShutdownInLoop();
             }
         } else {
-            std::cerr << "TcpConnection::HandleWrite error" << std::endl;
+            LOG_ERROR("TcpConnection::HandleWrite error");
         }
     }
 }
@@ -122,22 +123,26 @@ void TcpConnection::HandleWrite() {
 void TcpConnection::HandleClose() {
     loop_->AssertInLoopThread();
 
-    std::cout << "TcpConnection::HandleClose state = " << state_ << std::endl;
-
-    assert(state_ == kConnected || state_ == kDisconnecting);
-    channel_->DisableAll();
+    if (state_ == kDisconnected) 
+        return;
+    
     setstate(kDisconnected);
+    channel_->DisableAll();
 
     // Protect the connection close safely.
     TcpConnectionPtr guardThis(shared_from_this());
+
+    // Call server to delete information about the connection.
     if (close_callback_) {
         close_callback_(guardThis);
     }
 }
 
 void TcpConnection::HandleError(int err) {
-    std::cerr << "TcpConnection::HandleError [" << name_ 
-              << "] - SO_ERROR = " << err << std::endl;
+    std::string log_info = "TcpConnection::HandleError [" + name_ + "] - SO_ERROR = " + std::to_string(err);
+    LOG_ERROR("%s", log_info.c_str());
+    // Close the connection.
+    HandleClose(); 
 }
 
 void TcpConnection::Send(const std::string& message) {
@@ -165,8 +170,8 @@ void TcpConnection::SendInLoop(const std::string& message) {
         nwrote = ::write(channel_->getfd(), message.data(), message.size());
         if (nwrote >= 0) {
             remaining -= nwrote;
+            // All data has been send.
             if (remaining == 0) {
-                std::cerr << "Send ok" << std::endl;
             }
         }
         else {

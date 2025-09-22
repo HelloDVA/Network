@@ -6,13 +6,10 @@
 #include "globallogger.h"
 
 #include <string>
-#include <iostream>
 
 void Test(const TcpConnectionPtr& conn, Buffer* buffer) {
     // Process the received data
     std::string message(buffer->Peek(), buffer->ReadableBytes());
-
-    std::cout << "Received message: " << message << std::endl;
 
     std::string http_response =
         "HTTP/1.1 200 OK\r\n"
@@ -38,7 +35,7 @@ int main()
     std::string ip = "127.0.0.1";
     int port = 8081;
     InetAddress addr(ip.c_str(), port);
-    //LOG_INFO("server addr ok");
+    LOG_INFO("server addr ok");
 
     // Initialize gomoku server through address and main-loop.
     EventLoop loop;
@@ -47,7 +44,7 @@ int main()
     TcpServer server(&loop, addr);
     server.setmessagecallback(Test);
     server.Start();
-    //LOG_INFO("server started");
+    LOG_INFO("server started");
     
     // Start main-loop.
     loop.Loop();
