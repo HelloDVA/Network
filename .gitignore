@@ -1,2 +1,6 @@
 bin/
 build/
+.cache/
+
+项目优化.md
+
