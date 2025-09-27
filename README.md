@@ -30,6 +30,8 @@ IO复用相关：Channel	EpollPoller
 
 异步日志。
 
+![线程运行](https://github.com/HelloDVA/Network/blob/main/Thread%20flow.png)
+
 #### 4、并发测试（1000连接 30s）
 
 ##### wrk测试
