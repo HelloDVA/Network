@@ -211,6 +211,7 @@ void TcpConnection::ShutdownInLoop() {
     if (!channel_->IsWriting()) {
        ::shutdown(channel_->getfd(), SHUT_WR); 
     }
+    HandleClose();
 }
 
 void TcpConnection::UpgradeWebSocket() {

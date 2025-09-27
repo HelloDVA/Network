@@ -16,21 +16,14 @@ TcpServer::TcpServer(EventLoop* loop, const InetAddress& addr)
       started_(false),
       local_addr_(addr),
       acceptor_(std::make_unique<Acceptor>(loop, addr)),
-      thread_pool_(std::make_unique<EventLoopThreadPool>(loop, "IOthreadpool", 5)) {
+      thread_pool_(std::make_unique<EventLoopThreadPool>(loop, "IOthreadpool", 6)) {
     // Bind new connection callback for acceptor. 
     std::function<void(int, const InetAddress&)> cb = std::bind(&TcpServer::NewConnection, this, std::placeholders::_1, std::placeholders::_2);
     acceptor_->setnewconnectioncallback(cb);    
 }
 
 TcpServer::~TcpServer() {
-    loop_->AssertInLoopThread();
 
-    for (auto it : connections_) {
-        TcpConnection::TcpConnectionPtr conn = it.second;
-        conn->getloop()->RunInLoop([conn](){
-                conn->ConnectDestroyed();
-            });
-    }
 }
 
 void TcpServer::Start() {
@@ -40,8 +33,32 @@ void TcpServer::Start() {
 
     thread_pool_->Start();
 
-    loop_->RunInLoop([this](){
-            acceptor_->Listen();
+    acceptor_->Listen();
+}
+
+void TcpServer::Stop() {
+    // Cancle all acceptor epoll events.
+    loop_->RunInLoop([this]() {
+        acceptor_->ListenOff();
+    });
+
+    // Make sure all connections send ok.
+    for (auto it : connections_) {
+        TcpConnection::TcpConnectionPtr conn = it.second;
+        conn->getloop()->RunInLoop([conn](){
+            if (conn->IsConnected()) {
+                conn->Shutdown();
+            }
+        });
+    }
+    
+    // Close all sub-loop in threadpool.
+    thread_pool_->Stop();    
+    
+    // Close the main-loop.
+    loop_->RunInLoop([this]() {
+        loop_->Quit();  
+        started_ = false;
     });
 }
 

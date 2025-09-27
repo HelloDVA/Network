@@ -5,7 +5,9 @@
 #include "buffer.h"
 #include "globallogger.h"
 
+#include <chrono>
 #include <string>
+#include <thread>
 
 void Test(const TcpConnectionPtr& conn, Buffer* buffer) {
     // Process the received data
@@ -45,10 +47,15 @@ int main()
     server.setmessagecallback(Test);
     server.Start();
     LOG_INFO("server started");
-    
-    // Start main-loop.
-    loop.Loop();
 
+    // Run 40s then close.
+    std::thread ([&server]() {
+        std::this_thread::sleep_for(std::chrono::seconds(40)); 
+        server.Stop();
+    }).detach(); 
+
+    loop.Loop();
+    
     return 0;
 }
 
