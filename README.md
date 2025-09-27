@@ -34,13 +34,12 @@ IO复用相关：Channel	EpollPoller
 
 ##### wrk测试
 
-
+![wrk测试](https://github.com/HelloDVA/Network/blob/main/1000-30s-wrk.png)
 
 ##### 内存泄漏测试
 
-
+![内存泄漏测试](https://github.com/HelloDVA/Network/blob/main/1000-30s-valgrind.png)
 
 ##### 项目瓶颈测试
 
-
-
+![项目瓶颈测试](https://github.com/HelloDVA/Network/blob/main/1000-30s-flame.svg)
